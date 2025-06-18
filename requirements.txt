@@ -46,7 +46,7 @@ preshed==3.0.10
 pydantic==1.10.13
 pygame==2.6.1
 Pygments==2.18.0
-pyinstaller==6.6.0
+pyinstaller==6.11.1
 pyinstaller-hooks-contrib==2024.4
 python-dateutil==2.9.0.post0
 python-docx==1.1.0
