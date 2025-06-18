@@ -42,7 +42,7 @@ packaging==24.0
 pandas==2.2.3
 pefile==2023.2.7
 pillow==11.0.0
-preshed==3.0.9
+preshed==3.0.10
 pydantic==1.10.13
 pygame==2.5.2
 Pygments==2.18.0
