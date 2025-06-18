@@ -1,1 +1,1 @@
-web: gunicorn PJayS.wsgi 
+web: gunicorn PJayS.wsgi:application
