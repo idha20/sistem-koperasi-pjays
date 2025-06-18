@@ -13,7 +13,7 @@ click==8.1.7
 cloudpathlib==0.16.0
 colorama==0.4.6
 confection==0.1.4
-cymem==2.0.8
+cymem==2.0.10
 Django==5.0.7
 dnspython==2.6.1
 email_validator==2.2.0
