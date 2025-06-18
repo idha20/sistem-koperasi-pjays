@@ -34,7 +34,7 @@ lxml==5.4.0
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
-murmurhash==1.0.10
+murmurhash==1.0.13
 mysql-connector-python==8.4.0
 mysqlclient==2.2.4
 numpy==1.26.4
