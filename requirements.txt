@@ -1,3 +1,4 @@
+--only-binary=:all:
 altgraph==0.17.4
 annotated-types==0.6.0
 anyio==4.4.0
@@ -43,8 +44,7 @@ pandas==2.2.3
 pefile==2023.2.7
 pillow==11.0.0
 preshed==3.0.9
-pydantic==2.7.0
-pydantic_core==2.18.1
+pydantic==1.10.13
 pygame==2.5.2
 Pygments==2.18.0
 pyinstall==0.1.4
