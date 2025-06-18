@@ -1,0 +1,257 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Tambah Data Pelajar - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <div>
+    <h1>Tambah Pelajar Individu</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">Muka Surat</li>
+        <li class="breadcrumb-item">Pelajar</li>
+        <li class="breadcrumb-item active">Tambah Data</li>
+        <li class="breadcrumb-item active">Individu</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <!-- Button Group -->
+        <div class="btn-nav" style="position: relative;">
+          <a href="{% url 'register_student' %}"><button type="button" class="btn-Individu active ms-1">Individu</button></a>
+          <a href="{% url 'register_student_kumpulan_page' %}"><button type="button" class="btn-Kumpulan ms-2">Kumpulan</button></a>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Borang Pendaftaran Pelajar</h5>
+
+                  <!-- General Form Elements -->
+                  <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="row mb-3">
+                      <label for="inputICPelajar" class="col-sm-2 col-form-label">No. IC</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputICPelajar" placeholder="Masukkan nombor kad pengenalan pelajar" name="ic_pelajar">
+                      </div>
+                      {% comment %} {{ form.ic_pelajar }} {% endcomment %}
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="inputNamaPelajar" class="col-sm-2 col-form-label">Nama</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputNamaPelajar" placeholder="Masukkan nama pelajar" name="nama">
+                      </div>
+                      {% comment %} {{ form.nama }} {% endcomment %}
+                    </div>
+
+
+                    <fieldset class="row mb-3">
+                      <legend class="col-form-label col-sm-2 pt-0">Jantina</legend>
+                      <div class="col-sm-10 d-flex">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="jantina" id="jantinaLelaki" value="Lelaki" checked>
+                          <label class="form-check-label" for="jantinaLelaki">
+                            Lelaki
+                          </label>
+                        </div>
+                        <div class="form-check ms-3">
+                          <input class="form-check-input" type="radio" name="jantina" id="jantinaPerempuan" value="Perempuan">
+                          <label class="form-check-label" for="jantinaPerempuan">
+                            Perempuan
+                          </label>
+                          {% comment %} {{ form.jantina }} {% endcomment %}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <div class="row mb-3">
+                      <label for="inputAlamatPelajar" class="col-sm-2 col-form-label">Alamat Rumah</label>
+                      <div class="col-sm-10">
+                        <textarea class="form-control" id="inputAlamatPelajar" style="height: 100px" placeholder="Sila masukkan alamat rumah pelajar" name="alamat_rumah"></textarea>
+                      </div>
+                      {% comment %} {{ form.alamat_rumah }} {% endcomment %}
+                    </div>
+
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Tingkatan</label>
+                      <div class="col-sm-10">
+                        <select class="form-select" id="inputTingkatanPelajar" aria-label="Default select example" name="tingkatan">
+                          <option selected disabled>Pilih</option>
+                          <option value="Pilih">-</option>
+                          {% comment %} <option value="-">-</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option> {% endcomment %}
+                          {% for i in tingkatan %}
+                          <option value="{{ i }}">{{ i }}</option>
+                         {% endfor %}
+                        </select>
+                        {% comment %} {{ form.tingkatan }} {% endcomment %}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Kelas</label>
+                      <div class="col-sm-10">
+                        {% comment %} <select class="form-select" id="inputKelasPelajar" aria-label="Default select example" name="kelas">
+                          <option selected disabled>Pilih</option>
+                          <option value="-">-</option>
+                          <option value="ANGGERIK">ANGGERIK</option>
+                          <option value="CEMPAKA">CEMPAKA</option>
+                          <option value="DAHLIA">DAHLIA</option>
+                          <option value="MAWAR">MAWAR</option>
+                          <option value="SEROJA">SEROJA</option>
+                          <option value="TERATAI">TERATAI</option>
+                          <option value="UM">UM</option>
+                          <option value="UKM">UKM</option>
+                          <option value="USM">USM</option>
+                          <option value="LILY">LILY</option>
+                        </select> {% endcomment %}
+                        <select class="form-select" id="inputKelasPelajar" aria-label="Default select example" name="kelas">
+                          {% for i in kelas %}
+                          <option value="{{ i }}">{{ i }}</option>
+                         {% endfor %}
+                        </select>
+                        {% comment %} {{ form.kelas }} {% endcomment %}
+                      </div>
+                    </div>
+
+                    <fieldset class="row mb-3">
+                      <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+                      <div class="col-sm-10 d-flex">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="ahli" id="ahliAktif" value="Aktif" checked>
+                          <label class="form-check-label" for="ahliAktif">
+                            Aktif
+                          </label>
+                          {% comment %} {{ form.ahli }} {% endcomment %}
+                        </div>
+                        <div class="form-check ms-3">
+                          <input class="form-check-input" type="radio" name="ahli" id="ahliTidakAktif" value="Tidak Aktif">
+                          <label class="form-check-label" for="ahliTidakAktif">
+                            Tidak Aktif
+                          </label>
+                          {% comment %} {{ form.ahli }} {% endcomment %}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="row mb-3">
+                      <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+                      <div class="col-sm-10 d-flex">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="status" id="statusSaham" value="Selesai" checked>
+                          <label class="form-check-label" for="ahliAktif">
+                            Selesai
+                          </label>
+                          {% comment %} {{ form.ahli }} {% endcomment %}
+                        </div>
+                        <div class="form-check ms-3">
+                          <input class="form-check-input" type="radio" name="status" id="statusSaham" value="Belum Selesai">
+                          <label class="form-check-label" for="statusSaham">
+                            Belum Selesai
+                          </label>
+                          {% comment %} {{ form.ahli }} {% endcomment %}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <div class="row mb-3">
+                      <label for="modalSyer" class="col-sm-2 col-form-label">Modal Syer(RM)</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" id="modalSyer" placeholder="Sila masukkan nilai modal syer pelajar" name="modal_syer" onkeydown="return restrictInput(event)" step="any">
+                      </div>
+                      {% comment %} {{ form.modal_syer }} {% endcomment %}
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="inputDate" class="col-sm-2 col-form-label">Tarikh Pendaftaran</label>
+                      <div class="col-sm-10">
+                        <input type="date" class="form-control" name="tarikh_daftar">
+                      </div>
+                      {% comment %} {{ form.tarikh_daftar }} {% endcomment %}
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-xs-12 d-flex justify-content-center">
+                        <div class="form-btn">
+                          <button type="submit" class="btn btn-primary">Tambah</button>
+                          <button type="reset" class="btn btn-primary ms-2">Kosongkan</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form><!-- End General Form Elements -->
+
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Maklumat Data Pelajar</h5>
+
+                  <!-- Table container with scrollpane -->
+                  <div class="table-scrollpane">
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th>Bil.</th>
+                          <th>ID member</th>
+                          <th>No. IC</th>
+                          <th>Nama</th>
+                          <th>Jantina</th>
+                          <th>Alamat Rumah</th>
+                          <th>Tingkatan</th>
+                          <th>Kelas</th>
+                          <th>Ahli</th>
+                          <th>Status Saham</th>
+                          <th>Modal Syer(RM)</th>
+                          <th data-type="date" data-format="MM/DD/YYYY">Tarikh Pendaftaran</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in member %}
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ i.member_id}}</td>
+                          <td>{{ i.ic_pelajar }}</td>
+                          <td>{{ i.nama }}</td>
+                          <td>{{ i.jantina }}</td>
+                          <td>{{ i.alamat_rumah }}</td>
+                          <td>{{ i.tingkatan }}</td>
+                          <td>{{ i.kelas }}</td>
+                          <td>{{ i.ahli }}</td>
+                          <td>{{ i.status }}</td>
+                          <td>{{ i.modal_syer }}</td>
+                          <td>{{ i.tarikh_daftar }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="12" class="text-center">⚠️ Tiada data pelajar</td>
+                        </tr>   
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                  </div>
+                  <!-- End Table container with scrollpane -->
+                </div>
+              </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

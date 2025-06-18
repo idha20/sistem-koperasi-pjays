@@ -1,0 +1,310 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Tambah Data Pelajar - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+
+<div class="pagetitle">
+  <h1>Hasilkan Laporan Keseluruhan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item">Hasilkan Laporan</li>
+      <li class="breadcrumb-item">Keseluruhan</li>
+    </ol>
+  </nav>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+
+        <!-- Button Group -->
+        <div class="btn-nav" style="position: relative;">
+            <a href="{% url 'generate_report_pelajar' %}">
+                <button type="button" class="btn-Pelajar ms-1">Pelajar</button>
+            </a>
+            <a href="{% url 'generate_report_kakitangan' %}">
+                <button type="button" class="btn-Kakitangan ms-2">Kakitangan</button>
+            </a>
+            <a href="{% url 'generate_report_saham' %}">
+                <button type="button" class="btn-Saham ms-3">Saham</button>
+            </a>
+            <a href="{% url 'generate_report_keseluruhan' %}">
+                <button type="button" class="btn-Keseluruhan active ms-4">Keseluruhan</button>
+            </a>
+        </div><!-- Penutup Button Group -->
+
+
+        <div class="card">
+            <div class="card-body">
+
+                {% comment %} Filtered Body {% endcomment %}
+                <div class="card">
+                    <div class="card-body">
+                        <!-- General Form Elements -->
+                        <h5 class="card-title">Senarai Laporan Keseluruhan</h5>
+                        
+                            <!-- Generate Report Elements -->
+                            <form method="POST" action="{% url 'generate_report_pelajar' %}">
+                                {% csrf_token %}
+                                
+                                <div class="row mb-3">
+                                    <label for="report-type" class="col-sm-2 col-form-label">Jenis Laporan</label>
+                                    <div class="col-sm-6">
+                                      <select class="form-select" id="report-type" aria-label="Default select example" name="report-type">
+                                        <option selected disabled>Pilih</option>
+                                        <option value="pdf-type">Dokumen PDF (.pdf)</option>
+                                        <option value="xlsx-type">Microsoft Excel Worksheet (.xlsx)</option>
+                                      </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Pelajar Additional Options -->
+                                <div id="pelajar-options">
+                                    <div class="row mb-3">
+                                    <label for="tingkatan" class="col-sm-2 col-form-label">Tingkatan</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-select" id="filterTingkatan" arial-label="Defaule select example" name="tingkatan">
+                                        {% comment %} <option value="Pilih" selected disabled>Pilih Tingkatan</option>
+                                        {% for tingkatan in member %}
+                                            <option value="{{ tingkatan }}">{{ tingkatan }}</option>
+                                        {% endfor %} {% endcomment %}
+                                        <option selected disabled>Pilih</option>
+                                            <option value="-">-</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Kelas</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-select" id="filterKelas" arial-label="Defaule select example" name="kelas">
+                                        {% comment %} <option value="Pilih" selected disabled>Pilih Kelas</option>
+                                        {% for kelas in kelas_list %}
+                                            <option value="{{ kelas }}">{{ kelas }}</option>
+                                        {% endfor %} {% endcomment %}
+                                        <option selected disabled>Pilih</option>
+                                            <option value="-">-</option>
+                                            <option value="ANGGERIK">ANGGERIK</option>
+                                            <option value="CEMPAKA">CEMPAKA</option>
+                                            <option value="DAHLIA">DAHLIA</option>
+                                            <option value="MAWAR">MAWAR</option>
+                                            <option value="SEROJA">SEROJA</option>
+                                            <option value="TERATAI">TERATAI</option>
+                                            <option value="UM">UM</option>
+                                            <option value="UKM">UKM</option>
+                                            <option value="USM">USM</option>
+                                            <option value="LILY">LILY</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                
+                                    <fieldset class="row mb-3">
+                                    <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+                                    <div class="col-sm-10 d-flex">
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ahli" id="ahliAktifPelajar" value="Aktif">
+                                        <label class="form-check-label" for="ahliAktifPelajar">Aktif</label>
+                                        </div>
+                                        <div class="form-check ms-3">
+                                        <input class="form-check-input" type="radio" name="ahli" id="ahliTidakAktifPelajar" value="Tidak Aktif">
+                                        <label class="form-check-label" for="ahliTidakAktifPelajar">Tidak Aktif</label>
+                                        </div>
+                                        <div class="form-check ms-3">
+                                        <input class="form-check-input" type="radio" name="ahli" id="ahli-keseluruhan" value="keseluruhan">
+                                        <label class="form-check-label" for="ahli-keseluruhan">Keseluruhan</label>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                
+                                    <fieldset class="row mb-3">
+                                    <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+                                    <div class="col-sm-10 d-flex">
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status" id="statusSahamPelajar" value="Selesai">
+                                        <label class="form-check-label" for="statusSahamPelajar">Selesai</label>
+                                        </div>
+                                        <div class="form-check ms-3">
+                                        <input class="form-check-input" type="radio" name="status" id="statusSahamBelumPelajar" value="Belum Selesai">
+                                        <label class="form-check-label" for="statusSahamBelumPelajar">Belum Selesai</label>
+                                        </div>
+                                        <div class="form-check ms-3">
+                                        <input class="form-check-input" type="radio" name="status" id="saham-keseluruhan" value="keseluruhan">
+                                        <label class="form-check-label" for="saham-keseluruhan">Keseluruhan</label>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                <!-- Table Maklumat Pelajar -->
+                <div class="card" id="student-data-table">
+                    <div class="card-body">
+                    <h5 class="card-title">Maklumat Pelajar</h5>
+                    <div class="table-scrollpane">
+                        <table id="studentsTable" class="table">
+                        <thead>
+                            <tr>
+                            <th>No.</th>
+                            <th>Nama</th>
+                            <th>Tingkatan</th>
+                            <th>Kelas</th>
+                            <th>Status</th>
+                            <th>Ahli</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in student %}
+                            <tr class="student-row" 
+                            data-tingkatan="{{ member.tingkatan }}" 
+                            data-kelas="{{ member.kelas }}" 
+                            data-status="{{ member.status }}" 
+                            data-ahli="{{ member.ahli }}">
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ member.nama }}</td>
+                                <td>{{ member.tingkatan }}</td>
+                                <td>{{ member.kelas }}</td>
+                                <td>{{ member.status }}</td>
+                                <td>{{ member.ahli }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No data found for Pelajar</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Table Maklumat Kakitangan -->
+                <div class="card" id="teacher-data-table"> <!-- Adjust as per your requirement -->
+                    <div class="card-body">
+                    <h5 class="card-title">Maklumat Kakitangan</h5>
+                    <div class="table-scrollpane">
+                        <table class="table datatable">
+                        <thead>
+                            <tr>
+                            <th>No</th>
+                            <th>No. IC</th>
+                            <th>Nama</th>
+                            <th>Pangkat</th>
+                            <th>Ahli</th>
+                            <th>Status</th>
+                            <th>Modal Syer(RM)</th>
+                            <th>Tarikh Pendaftaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in teacher %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ i.ic_cikgu }}</td>
+                                <td>{{ i.nama }}</td>
+                                <td>{{ i.pangkat }}</td>
+                                <td>{{ i.ahli }}</td>
+                                <td>{{ i.status}}</td>
+                                <td>{{ i.modal_syer }}</td>
+                                <td>{{ i.tarikh_daftar }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7">No data found for Kakitangan</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>              
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const filterTingkatan = document.getElementById('filterTingkatan');
+        const filterKelas = document.getElementById('filterKelas');
+        const filterStatus = document.querySelectorAll('input[name="status"]');
+        const filterAhli = document.querySelectorAll('input[name="ahli"]');
+        const rows = document.querySelectorAll('.student-row');
+        const form = document.getElementById('deleteForm');
+
+        function filterRows() {
+        const tingkatanValue = filterTingkatan.value;
+        const kelasValue = filterKelas.value;
+        const statusValue = document.querySelector('input[name="status"]:checked')?.value || '';
+        const ahliValue = document.querySelector('input[name="ahli"]:checked')?.value || '';
+        
+        console.log('Filtering rows...');
+        console.log('Filter values:', { tingkatanValue, kelasValue, statusValue, ahliValue });
+        
+        rows.forEach(row => {
+            const rowTingkatan = row.getAttribute('data-tingkatan');
+            const rowKelas = row.getAttribute('data-kelas');
+            const rowStatus = row.getAttribute('data-status');
+            const rowAhli = row.getAttribute('data-ahli');
+        
+            console.log('Row attributes:', { rowTingkatan, rowKelas, rowStatus, rowAhli });
+        
+            const tingkatanMatch = (tingkatanValue === "Pilih" || rowTingkatan === tingkatanValue);
+            const kelasMatch = (kelasValue === "Pilih" || rowKelas === kelasValue);
+            const statusMatch = (!statusValue || rowStatus === statusValue);
+            const ahliMatch = (!ahliValue || rowAhli === ahliValue);
+        
+            if (tingkatanMatch && kelasMatch && statusMatch && ahliMatch) {
+            row.style.display = '';
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.disabled = false;
+            }
+            } else {
+            row.style.display = 'none';
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.disabled = true;
+            }
+            }
+        });
+        
+        updateRowNumbers();
+        }
+        
+
+        function updateRowNumbers() {
+        let visibleRowCount = 1;
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+            row.querySelector('td:nth-child(1)').textContent = visibleRowCount++;
+            }
+        });
+        }
+
+        if (filterTingkatan && filterKelas) {
+        filterTingkatan.addEventListener('change', filterRows);
+        filterKelas.addEventListener('change', filterRows);
+        }
+        
+
+        filterTingkatan.addEventListener('change', filterRows);
+        filterKelas.addEventListener('change', filterRows);
+        filterStatus.forEach(radio => radio.addEventListener('change', filterRows));
+        filterAhli.forEach(radio => radio.addEventListener('change', filterRows));
+
+    });
+</script>
+{% endblock %}

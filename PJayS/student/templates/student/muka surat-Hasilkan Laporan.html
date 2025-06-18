@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Hasilkan Laporan - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Hasilkan Laporan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item active">Hasilkan Laporan</li>
+    </ol>
+  </nav>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Senarai Laporan</h5>
+          
+          <!-- Generate Report Elements -->
+          <form>
+            {% csrf_token %}
+              <div class="row mb-3">
+              <label for="report-type" class="col-sm-2 col-form-label">Jenis Laporan</label>
+              <div class="col-sm-6">
+                <select class="form-select" id="report-type" aria-label="Default select example" name="report-type">
+                  <option selected disabled>Pilih</option>
+                  <option value="pdf-type">Dokumen PDF (*.pdf)</option>
+                  <option value="docx-type">Excel Workbook (*.xlsx)</option>
+                </select>
+                {% comment %} {{ report_type }} {% endcomment %}
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="gen-startDate" class="col-sm-2 col-form-label">Tarikh Mula Laporan</label>
+              <div class="col-sm-2">
+                <input type="date" class="form-control" name="gen-startDate">
+              </div>
+              {% comment %} {{ gen-startDate }} {% endcomment %}
+            </div>
+
+            <div class="row mb-3">
+              <label for="gen-endDate" class="col-sm-2 col-form-label">Tarikh Akhir Laporan</label>
+              <div class="col-sm-2">
+                <input type="date" class="form-control" name="gen-endDate">
+              </div>
+              {% comment %} {{ gen-endDate }} {% endcomment %}
+            </div>
+
+            <fieldset class="row mb-3">
+              <legend class="col-form-label col-sm-2 pt-0">Komuniti</legend>
+              <div class="col-sm-10 d-flex">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gen-list" id="gen-forStudent" value="Pelajar" checked>
+                  <label class="form-check-label" for="gen-forStudent">
+                    Pelajar
+                  </label>
+                  {% comment %} {{ gen-forStudent }} {% endcomment %}
+                </div>
+                <div class="form-check ms-3">
+                  <input class="form-check-input" type="radio" name="gen-list" id="gen-forStaff" value="Kakitangan" checked>
+                  <label class="form-check-label" for="gen-forStaff">
+                    Kakitangan
+                  </label>
+                  {% comment %} {{ gen-forStaff }} {% endcomment %}
+              </div>
+            </fieldset>
+            {% comment %} {{ gen-list }} {% endcomment %}
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label">Tingkatan</label>
+              <div class="col-sm-4">
+                <select class="form-select" id="gen-byForm" aria-label="Default select example" name="gen-byForm">
+                  <option selected disabled>Pilih</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                {% comment %} {{ gen-byForm }} {% endcomment %}
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label">Kelas</label>
+              <div class="col-sm-4">
+                <select class="form-select" id="gen-byClass" aria-label="Default select example" name="gen-byClass">
+                  <option selected disabled>Pilih</option>
+                  <option value="ANGGERIK">ANGGERIK</option>
+                  <option value="CEMPAKA">CEMPAKA</option>
+                  <option value="DAHLIA">DAHLIA</option>
+                  <option value="MAWAR">MAWAR</option>
+                  <option value="SEROJA">SEROJA</option>
+                  <option value="TERATAI">TERATAI</option>
+                  <option value="UM">UM</option>
+                  <option value="UKM">UKM</option>
+                  <option value="USM">USM</option>
+                  <option value="LILY">LILY</option>
+                </select>
+                {% comment %} {{ gen-byClass }} {% endcomment %}
+              </div>
+            </div>
+
+            <div class="form-btn">
+              <button type="submit" class="btn btn-primary mt-3">Menjana</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock  %}

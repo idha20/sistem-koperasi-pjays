@@ -1,0 +1,286 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Data Cikgu - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+  <div class="pagetitle">
+    <h1>Data Kakitangan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">Muka Surat</li>
+        <li class="breadcrumb-item active">Ringkasan Kakitangan</li>
+      </ol>
+    </nav>
+  </div><!-- Penutup Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <!-- Left side columns -->
+      <div class="col-lg-5">
+        <div class="card">
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-three-dots"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li><a class="dropdown-item" href="{% url 'register_teacher' %}">Kakitangan</a></li>
+              <li><a class="dropdown-item" href="{% url 'share_page' %}">Saham</a></li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Info Kakitangan <span>| Terkini</span></h5>
+            <!-- Pelajar dan Kakitangan Cards -->
+            <div class="row">
+              <!-- Kakitangan Card -->
+              <div class="col-xxl-6 col-md-6">
+                <div class="card info-card teacher-card">
+                  <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown">
+                      <i class="bi bi-three-dots"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                      <li><a class="dropdown-item" href="{% url 'register_teacher' %}">Lagi</a></li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Keseluruhan Kakitangan</h5>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person-badge"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{ total_teacher }}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- Penutup Kakitangan Card -->
+
+              <!-- Saham Kakitangan Card -->
+              <div class="col-xxl-6 col-md-6">
+                <div class="card info-card student-card">
+                  <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown">
+                      <i class="bi bi-three-dots"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                      <li><a class="dropdown-item" href="{% url 'share_page' %}">Lagi</a></li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Saham Kakitangan</h5>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-cash"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>RM{{ total_saham_teacher }}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- Penutup Pelajar Card -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Ahli Pie Chart -->
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body pb-0">
+            <h5 class="card-title">Status Ahli</h5>
+            <div id="studentStatusPieChart1" style="min-height: 220px;" class="echart"></div>
+            <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              echarts.init(document.querySelector("#studentStatusPieChart1")).setOption({
+                tooltip: {
+                  trigger: 'item',
+                  formatter: function (params) {
+                    return `${params.name}: ${params.value} Kakitangan`;
+                  }
+                },
+                legend: {
+                  top: '5%',
+                  left: 'center'
+                },
+                series: [{
+                  name: 'Status Pelajar',
+                  type: 'pie',
+                  radius: ['40%', '70%'],
+                  avoidLabelOverlap: false,
+                  label: { show: false, position: 'center' },
+                  emphasis: {
+                    label: { show: true, fontSize: '18', fontWeight: 'bold' }
+                  },
+                  labelLine: { show: false },
+                  data: [
+                    { value: {{ kakitangan_aktif }}, name: 'Aktif' },
+                    { value: {{ kakitangan_tidak_aktif }}, name: 'Tidak Aktif' }
+                  ]
+                }]
+              });
+            });
+          </script>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Pengambilan Saham Pie Chart -->
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body pb-0">
+            <h5 class="card-title">Status Saham</h5>
+            <div id="studentStatusPieChart2" style="min-height: 220px;" class="echart"></div>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#studentStatusPieChart2")).setOption({
+                    tooltip: {
+                      trigger: 'item',
+                      formatter: function (params) {
+                        return `${params.name}: ${params.value} Kakitangan`;
+                      }
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Status Pelajar',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: { show: false, position: 'center' },
+                      emphasis: {
+                        label: { show: true, fontSize: '18', fontWeight: 'bold' }
+                      },
+                      labelLine: { show: false },
+                      data: [
+                        { value: {{ saham_selesai }}, name: 'Selesai' },
+                        { value: {{ saham_belum_selesai }}, name: 'Belum Selesai' }
+                      ]
+                    }]
+                  });
+                });
+              </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="row">
+      <!-- Saham Section -->
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Transaksi Penambahan Saham<span>| Terkini</span></h5>
+            <div id="lineChart"></div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                  // Parse the data from Django
+                  const lineChartData = {{ line_chart_data|safe }};
+
+                  // Initialize the chart with ApexCharts
+                  const chartOptions = {
+                      series: [{
+                          name: "Modal Syer",
+                          data: lineChartData.map(item => item.total_saham) // Use the correct key 'total_saham'
+                      }],
+                      chart: {
+                          height: 385,
+                          type: 'line' // Specify the chart type
+                      },
+                      xaxis: {
+                          categories: lineChartData.map(item => item.date_time) // Use 'date_time' for the x-axis labels
+                      },
+                    //   title: {
+                    //       text: 'Transaksi Penambahan Saham',
+                    //       align: 'left'
+                    //   },
+                      tooltip: {
+                          y: {
+                              formatter: function (val) {
+                                  return "RM " + val; // Format the tooltip to display RM (Malaysian Ringgit)
+                              }
+                          },
+                          x: {
+                              formatter: function (val, opts) {
+                                  const index = opts.dataPointIndex;
+                                  const teacherName = lineChartData[index].teacher_name; // Retrieve the teacher's name
+                                  return `${val} (by ${teacherName})`; // Display the date and teacher's name
+                              }
+                          }
+                      }
+                  };
+
+                  // Create the chart
+                  const chart = new ApexCharts(document.querySelector("#lineChart"), chartOptions);
+                  chart.render();
+              });
+            </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Data Cikgu Section -->
+  <div class="col-lg-12">
+    <div class="pagetitle">
+      <h1>Data Cikgu</h1>
+    </div><!-- Penutup Page Title -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Jadual Cikgu</h5>
+            <div class="table-scrollpane">
+                <table class="table datatable">
+                    <thead>
+                        <tr>
+                            <th>Bil.</th>
+                            <th>ID Teacher</th>
+                            <th>No. IC</th>
+                            <th>Nama</th>
+                            <th>Jantina</th>
+                            <th>Alamat Rumah</th>
+                            <th>Pangkat</th>
+                            <th>Ahli</th>
+                            <th>Status Saham</th>
+                            <th>Modal Syer(RM)</th>
+                            <th data-type="date" data-format="MM/DD/YYYY">Tarikh Pendaftaran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in teacher %}
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ i.teacher_id}}</td>
+                          <td>{{ i.ic_cikgu }}</td>
+                          <td>{{ i.nama }}</td>
+                          <td>{{ i.jantina }}</td>
+                          <td>{{ i.alamat_rumah }}</td>
+                          <td>{{ i.pangkat }}</td>
+                          <td>{{ i.ahli }}</td>
+                          <td>{{ i.status }}</td>
+                          <td>{{ i.modal_syer }}</td>
+                          <td>{{ i.tarikh_daftar }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="11" class="text-center">⚠️ Tiada data Kakitangan</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

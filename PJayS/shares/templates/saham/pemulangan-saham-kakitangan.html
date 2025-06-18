@@ -1,0 +1,237 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Pemulangan Saham Kakitangan - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Pemulangan Saham Kakitangan</h5>
+
+      <!-- Form Elements -->
+      <form method="POST" action="{% url 'add_share_page_teacher' teacher.teacher_id %}">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+          <label for="accNumStaff" class="col-sm-2 col-form-label">Nombor Akaun Bank</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="accNumStaff" name="accNumStaff" value="5141 2345 6789" disabled>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="accNameStaff" class="col-sm-2 col-form-label">Nama Akaun Bank</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="accNameStaff" name="accNameStaff" value="Maybank2U" disabled>
+          </div>
+        </div>
+        
+        <div class="row mb-3">
+          <label for="idStaff" class="col-sm-2 col-form-label">ID Kakitangan</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="IDStaff" name="ic_pelajar" value="{{ teacher.teacher_id }}" disabled>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="namaStaff" class="col-sm-2 col-form-label">Nama</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="namaStaff" name="nama" value="{{ teacher.nama }}" disabled>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="modalSyerStaff" class="col-sm-2 col-form-label">Baki Modal Syer (RM)</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="modalSyerStaff" name="modal_syer" value="{{ teacher.modal_syer }}" disabled>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="tambahmodalSyer" class="col-sm-2 col-form-label">Jumlah Pemulangan Modal Syer (RM)</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="tambahmodalSyer" name="amount" required>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="note" class="col-sm-2 col-form-label">Note</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" id="note" name="note"></textarea>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="paymentMethod" class="col-sm-2 col-form-label">Payment Method</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="paymentMethod" name="payment_method" required>
+              <option value="" disabled selected>Pilih Kaedah Pembayaran</option>
+              <option value="credit_debit">Credit/Debit Card</option>
+              <option value="online_banking">Online Banking (FPX)</option>
+              <option value="e_wallet">E-Wallet</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Credit/Debit Card Options -->
+        <div class="row mb-3 d-none" id="creditDebitOptions">
+          <label class="col-sm-2 col-form-label">Jenis Kad</label>
+          <div class="col-sm-10">
+            <select class="form-select" name="card_type">
+              <option value="" disabled selected>Pilih Jenis Kad</option>
+              <option value="visa">VISA</option>
+              <option value="mastercard">MasterCard</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Online Banking Options -->
+        <div id="onlineBankingOptions" class="d-none">
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Jenis Akaun</label>
+            <div class="col-sm-10">
+              <div>
+                <input type="radio" id="individualAccount" name="account_type" value="individual" required>
+                <label for="individualAccount">Individu</label>
+              </div>
+              <div>
+                <input type="radio" id="corporateAccount" name="account_type" value="corporate" required>
+                <label for="corporateAccount">Akaun Korporat</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3 d-none" id="individualBanks">
+            <label class="col-sm-2 col-form-label">Nama Bank (Individu)</label>
+            <div class="col-sm-10">
+              <select class="form-select" name="individual_bank">
+                <option value="" disabled selected>Pilih Bank</option>
+                <option value="affinb">Affin Bank</option>
+                <option value="agrob">Agrobank</option>
+                <option value="allianceb-p">Alliance Bank(Peribadi)</option>
+                <option value="ambank">Ambank</option>
+                <option value="bislam">Bank Islam</option>
+                <option value="bmuamalat">Bank Muamalat</option>
+                <option value="boChina">Bank of China</option>
+                <option value="bRakyat">Bank Rakyat</option>
+                <option value="bsn">BSN</option>
+                <option value="cimbclicks">CIMB Clicks</option>
+                <option value="hlb">Hong Leong Bank</option>
+                <option value="hsbcb">HSBC Bank</option>
+                <option value="kfh">Kuwait Finance House</option>
+                <option value="maybank2u">Maybank2U</option>
+                <option value="ocbcb">OCBC Bank</option>
+                <option value="publicb">Public Bank</option>
+                <option value="rhbb">RHB Bank</option>
+                <option value="standardc">Standard Chartered</option>
+                <option value="uobb">UOB Bank</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3 d-none" id="corporateBanks">
+            <label class="col-sm-2 col-form-label">Nama Bank (Akaun Korporat)</label>
+            <div class="col-sm-10">
+              <select class="form-select" name="corporate_bank">
+                <option value="" disabled selected>Pilih Bank</option>
+                <option value="affin-m">Affin Max</option>
+                <option value="agrob">Agrobank</option>
+                <option value="alliance">Alliance</option>
+                <option value="ambank">Ambank</option>
+                <option value="bislam">Bank Islam</option>
+                <option value="bRakyat">Bank Rakyat</option>
+                <option value="cimbb">CIMB Bank</option>
+                <option value="citibank">Citibank</option>
+                <option value="deutscheb">Deutsche Bank</option>
+                <option value="hlb">Hong Leong</option>
+                <option value="hsbc">HSBC</option>
+                <option value="kfh">Kuwait Finance House</option>
+                <option value="maybank2u">Maybank</option>
+                <option value="muamalat">Muamalat</option>
+                <option value="ocbc">OCBC</option>
+                <option value="publicb">Public Bank</option>
+                <option value="publicb-e">Public Bank Enterprise</option>
+                <option value="rhbb">RHB Bank</option>
+                <option value="standardcb">Standard Chartered Bank</option>
+                <option value="uob">UOB</option>
+                <option value="uobr">UOB Bank Regional</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- E-Wallet Options -->
+        <div class="row mb-3 d-none" id="eWalletOptions">
+          <label class="col-sm-2 col-form-label">E-Wallet</label>
+          <div class="col-sm-10">
+            <select class="form-select" name="e_wallet">
+              <option value="" disabled selected>Pilih E-Wallet</option>
+              <option value="tng">Touch 'n Go</option>
+              <option value="boost">Boost</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-xs-12 d-flex justify-content-center">
+            <div class="form-btn">
+              <a href="{% url 'view_account_teacher' teacher.teacher_id %}" class="btn btn-secondary">Kembali</a>
+              <button type="submit" class="btn btn-primary">Teruskan Pembayaran</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const paymentMethod = document.getElementById("paymentMethod");
+  const creditDebitOptions = document.getElementById("creditDebitOptions");
+  const onlineBankingOptions = document.getElementById("onlineBankingOptions");
+  const eWalletOptions = document.getElementById("eWalletOptions");
+  const individualAccount = document.getElementById("individualAccount");
+  const corporateAccount = document.getElementById("corporateAccount");
+  const individualBanks = document.getElementById("individualBanks");
+  const corporateBanks = document.getElementById("corporateBanks");
+
+  paymentMethod.addEventListener("change", function () {
+    const selected = this.value;
+  
+    // Reset visibility
+    creditDebitOptions.classList.add("d-none");
+    onlineBankingOptions.classList.add("d-none");
+    eWalletOptions.classList.add("d-none");
+  
+    if (selected === "credit_debit") {
+      creditDebitOptions.classList.remove("d-none");
+    }
+    
+    if (selected === "online_banking") {
+      onlineBankingOptions.classList.remove("d-none");
+    }
+  
+    if (selected === "e_wallet") {
+      eWalletOptions.classList.remove("d-none");
+    }
+  });  
+
+  individualAccount.addEventListener("change", function () {
+    if (this.checked) {
+      individualBanks.classList.remove("d-none");
+      corporateBanks.classList.add("d-none");
+    }
+  });
+
+  corporateAccount.addEventListener("change", function () {
+    if (this.checked) {
+      corporateBanks.classList.remove("d-none");
+      individualBanks.classList.add("d-none");
+    }
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Padam Data Kakitangan - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Padam Data Kakitangan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item">Kakitangan</li>
+      <li class="breadcrumb-item active">Padam Data</li>
+    </ol>
+  </nav>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Maklumat Pendaftaran Kakitangan</h5>
+          <div class="table-scrollpane">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Bil</th>
+                  <th>ID Teacher</th>
+                  <th>No. IC</th>
+                  <th>Nama</th>
+                  <th>Jantina</th>
+                  <th>Alamat Rumah</th>
+                  <th>Pangkat</th>
+                  <th>Ahli</th>
+                  <th>Status Saham</th>
+                  <th>Modal Syer(RM)</th>
+                  <th data-type="date" data-format="MM/DD/YYYY">Tarikh Pendaftaran</th>
+                  <th>Tindakan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in teacher %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ i.teacher_id }}</td>
+                  <td>{{ i.ic_cikgu }}</td>
+                  <td>{{ i.nama }}</td>
+                  <td>{{ i.jantina }}</td>
+                  <td>{{ i.alamat_rumah }}</td>
+                  <td>{{ i.pangkat }}</td>
+                  <td>{{ i.ahli }}</td>
+                  <td>{{ i.status }}</td>
+                  <td>{{ i.modal_syer }}</td>
+                  <td>{{ i.tarikh_daftar }}</td>
+                  <td>
+                    <div class="form-btn">
+                      <button type="submit" class="btn btn-primary" onclick="openConfirmModal('{{ i.teacher_id }}')">Padam</button>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="12" class="text-center">⚠️ Tiada data Kakitangan</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Pengesahan Padam</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Adakah anda pasti ingin memadam data kakitangan ini?
+        <!-- 🔹 Hidden CSRF Token Input -->
+        <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Padam</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openConfirmModal(teacherId) {
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    confirmDeleteModal.show();
+
+    document.getElementById('confirmDeleteButton').onclick = function() {
+        fetch(`/delete_teacher/${teacherId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.getElementById('csrfToken').value,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();  // Reload the page to trigger SweetAlert
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "Gagal memadam data kakitangan.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    };
+}
+
+</script>
+
+
+{% endblock %}

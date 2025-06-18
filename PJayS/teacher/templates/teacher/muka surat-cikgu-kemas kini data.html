@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Kemas Kini Data Kakitangan - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Kemas Kini Data Kakitangan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item">Kakitangan</li>
+      <li class="breadcrumb-item active">Kemas Kini Data</li>
+    </ol>
+  </nav>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Maklumat Pendaftaran Kakitangan</h5>
+          <div class="table-scrollpane">
+        <!-- Table with stripped rows -->
+        <table class="table datatable">
+          <thead>
+            <tr>
+                <th>Bil.</th>
+                <th>ID Teacher</th>
+                <th>No. IC</th>
+                <th>Nama</th>
+                <th>Jantina</th>
+                <th>Alamat Rumah</th>
+                <th>Pangkat</th>
+                <th>Ahli</th>
+                <th>Status Saham</th>
+                <th>Modal Syer(RM)</th>
+                <th data-type="date" data-format="MM/DD/YYYY">Tarik Pendaftaran</th>
+              <th>Tindakan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for teacher in teacher %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ teacher.teacher_id}}</td>
+                <td>{{ teacher.ic_cikgu}}</td>
+                <td>{{ teacher.nama }}</td>
+                <td>{{ teacher.jantina }}</td>
+                <td>{{ teacher.alamat_rumah }}</td>
+                <td>{{ teacher.pangkat }}</td>
+                <td>{{ teacher.ahli }}</td>
+                <td>{{ teacher.status}}</td>
+                <td>{{ teacher.modal_syer }}</td>
+                <td>{{ teacher.tarikh_daftar }}</td>
+              <td>
+                <form method="" action="{% url 'edit_teacher' teacher.teacher_id %}">
+                  {% csrf_token %}
+                  <div class="form-btn">
+                    <button type="submit"  class="btn btn-primary">Kemas Kini</button>
+                  <div>
+                </form>
+              </td> <!-- Button yang menyimpan id pelajar untuk displaykan di form -->
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="12" class="text-center">⚠️ Tiada data Kakitangan</td>
+            </tr>
+            {% endfor %}
+            <!-- Repeat the rows for other students -->
+
+          </tbody>
+
+        </table>
+        <!-- End Table with stripped rows -->
+      </div>
+
+        </div>
+      </div>
+{% endblock  %}

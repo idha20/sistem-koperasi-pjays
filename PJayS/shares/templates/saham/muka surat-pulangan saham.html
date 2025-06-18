@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block title %}
+  Pemulangan Saham - PJays KoopSystem <!-- Try show ID dekat title -->
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Maklumat Pemulangan Saham Kakitangan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item">Saham Komuniti</li> 
+      <li class="breadcrumb-item active">Pemulangan Saham</li>
+    </ol>
+  </nav>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Saham bagi {{ teacher.nama }}</h5>
+          <!-- View Share Elements -->
+          <form method="POST" action="{% url 'pulangan_saham' teacher.teacher_id %}">
+            {% csrf_token %}
+            <div class="row mb-3">
+              <label for="tarikh_pendaftaran" class="col-sm-2 col-form-label">Tarikh Pendaftaran</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" name="tarikh_pendaftaran" id="tarikh_pendaftaran" value="{{ teacher.tarikh_daftar|date:'Y-m-d' }}" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="accNumStaff" class="col-sm-2 col-form-label">Nombor Akaun Bank</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="accNumStaff" name="accNumStaff" value="5141 2345 6789" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="accNameStaff" class="col-sm-2 col-form-label">Nama Akaun Bank</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="accNameStaff" name="accNameStaff" value="Maybank2U" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="report-type" class="col-sm-2 col-form-label">ID Kakitangan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="IDStaff" name="teacher_id" value="{{ teacher.teacher_id }}" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="namaStaff" class="col-sm-2 col-form-label">Nama</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="namaStaff" name="nama" value="{{ teacher.nama }}" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="modalSyerStaff" class="col-sm-2 col-form-label">Nilai Syer Semasa (RM)</label>
+              <div class="col-sm-10 d-flex align-items-center">
+                <input type="number" class="form-control me-2" id="modalSyerStaff" name="modal_syer" value="{{ teacher.modal_syer }}" disabled>
+
+                  <div class="form-btn">
+                    <button type="submit" class="btn btn-primary">Pulangan Saham</button>
+                  </div>
+
+              </div>
+            </div>
+          </form>
+
+          <form action="{% url 'share_page' %}" method="post">
+            {% csrf_token %}
+            <div class="form-btn">
+                <button type="submit" name="kembali" class="btn btn-primary" style="width: 150px;">Kembali</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Saham -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Rekod Urus Niaga Syer Kakitangan</h5>
+          <!-- Table container with scrollpane -->
+          <div class="table-scrollpane">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Modal Syer (RM)</th>
+                  <th>Tarikh Penambahan</th>
+                  <th>Komen/Nota Tambahan</th>
+                  <th>Resit Pembayaran</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% comment %} {% for saham in saham %} {% endcomment %}
+                <tr>
+                  <td>100</td>
+                  <td>Dec. 16, 2024, 12:12 p.m.</td>
+                  <td>Pemulangan saham</td>
+                  <td>
+                    <!-- Image Upload Section -->
+                    <div class="mb-3">
+                        <label for="imageUpload" class="form-label">Upload Image</label>
+                        <input type="file" class="form-control" id="imageUpload" accept="image/*">
+                    </div>
+                    <div class="text-center">
+                        <img id="imagePreview" src="" alt="Image Preview" style="display: none; max-width: 100%; height: auto;" />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>150</td>
+                  <td>Dec. 16, 2023, 3:31 p.m.</td>
+                  <td>Pemulangan saham</td>
+                  <td>
+                    <a href="{% static 'assets/img/Resit.png' %}" target="_blank">
+                      <div class="form-btn">
+                        <button type="submit" class="btn btn-primary">Lihat Resit</button>
+                      </div>
+                    </a>
+                  </td>
+                </tr>
+                {% comment %} {% endfor %} {% endcomment %}
+                <!-- Repeat the rows for other students -->
+
+              </tbody>
+              
+            </table>
+            <!-- End Table with stripped rows -->
+          </div>
+      
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock  %}

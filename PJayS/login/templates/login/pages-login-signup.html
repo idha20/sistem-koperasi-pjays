@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ms">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Halaman / Log Masuk - PJays KoopSystem</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/SMKPJ logo.png' %}" rel="icon">
+    <link href="{% static 'assets/img/SMKPJ logo.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <!-- Logo Section -->
+            <a href="dashboard" class="logo d-flex align-items-center">
+                <img src="{% static 'assets/img/SMKPJ logo.png' %}" alt="">
+                <span class="d-none d-lg-block ms-2">Sistem Koperasi PJayS</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="header-nav ms-auto d-flex align-items-center">
+                <ul class="nav d-flex align-items-center gap-4">
+                    <li class="nav-item">
+                        <button class="btn nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Login</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Mengenai Kami</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Carta Organisasi</button>
+                    </li>
+                </ul>
+            </nav><!-- End Navigation -->
+        </div>
+    </header><!-- End Header -->
+
+    <!-- Main Content -->
+    <div class="background">
+        <div class="content">
+            <section class="section flex-column align-items-center justify-content-center py-4">
+                <div class="tab-content pt-2">
+
+                    <!-- Profile Overview Tab -->
+                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                        <div class="login">
+                            <div class="container" id="container">
+                                <div class="form-container log-in">
+                                    <form class="row g-0" action="{% url 'login' %}" method="post">
+
+                                        {% csrf_token %}
+                                        <div class="pt-4 pb-1">
+                                            <div class="pb-1">
+                                                <h5 class="card-title text-center pb-0 fs-4">Log Masuk</h5>
+                                            </div>
+                                            <p class="text-center small">Masukkan emel & kata laluan anda untuk log masuk</p>
+                                        </div>
+                                        <label for="yourUsername" class="form-label">Nama Pengguna</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" name="username" class="form-control" id="yourUsername" required>
+                                            <div class="invalid-feedback">Sila masukkan nama pengguna anda.</div>
+                                        </div>
+
+                                        <label for="yourPassword" class="form-label">Kata Laluan</label>
+                                        <div class="input-group">
+                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
+                                            <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                                                <i class="bi bi-eye" id="toggleIcon"></i>
+                                            </span>
+                                            <div class="invalid-feedback">Sila masukkan kata laluan anda!</div>
+                                        </div>
+
+                                        <!-- Inside the login form -->
+                                        <div class="mt-3">
+                                            <a href="{% url 'password_reset' %}" class="small">Lupa Kata Laluan?</a>
+                                        </div>
+
+                                        <button id="login-btn">Log Masuk</button>
+                                    </form>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle">
+                                        <div class="toggle-panel toggle-right">
+                                            <h5 class="card-title text-center pb-0 fs-4 mb-2">Laman Terhad!</h5>
+                                            <p>Laman ini hanya boleh diakses oleh Admin PJayS sahaja!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Edit Tab -->
+                    <div class="tab-pane fade profile-edit" id="profile-edit">
+                        <div class="about">
+                            <div class="pt-4 pb-1">
+                                <div class="container2 d-flex align-items-start"> <!-- Flexbox layout with default row direction -->
+                                    <div class="text-container"> <!-- Text container positioned on the left -->
+                                        <h5 class="card-title text-center pb-0 fs-4">Selamat Datang Ke Sistem Koperasi PJayS</h5>
+                                        <p>Sekolah Menengah Kebangsaan Panggung Jaya, yang terletak di Kampung Panggung Lalat, Gua Musang, Kelantan, merupakan sekolah pertama di negeri ini yang berperanan khusus dalam memberikan perkhidmatan pendidikan kepada masyarakat Orang Asli. Namun demikian, operasi koperasi sekolah ini berdepan cabaran akibat penggunaan kaedah manual yang kurang efisien dan menyukarkan kelancaran pengurusan.</p>
+                                        <p>Sistem Koperasi PJayS ialah penyelesaian digital yang memodenkan operasi koperasi sekolah melalui automasi. Dengan meminimumkan tugas manual, ia meningkatkan ketepatan, mempercepatkan perkhidmatan, dan menyokong matlamat sekolah untuk kecemerlangan dan inovasi.</p>
+                                    </div>
+                                    <img src="{% static 'assets/img/body-background.jpg' %}" alt="Description of Image" class="about-image"> <!-- Image positioned on the right -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Objectives Section -->
+                        <div class="objectives-container d-flex flex-column pt-4">
+                            <h5 class="card-title text-center pb-0 fs-4">OBJEKTIF</h5> <!-- Centralized title -->
+
+                            <div class="d-flex justify-content-center pt-3">
+                                <!-- Objective 1 -->
+                                <div class="objective1 text-center">
+                                    <img src="{% static 'assets/img/Obj-1.png' %}" alt="Icon 1" class="objective-icon"> <!-- Replace with your icon path -->
+                                    <p class="objective-text">PENDAFTARAN PELAJAR</p>
+                                </div>
+
+                                <!-- Objective 2 -->
+                                <div class="objective2 text-center">
+                                    <img src="{% static 'assets/img/Obj-2.png' %}" alt="Icon 2" class="objective-icon"> <!-- Replace with your icon path -->
+                                    <p class="objective-text">MENGURUS DATA</p>
+                                </div>
+
+                                <!-- Objective 3 -->
+                                <div class="objective3 text-center">
+                                    <img src="{% static 'assets/img/Obj-3.png' %}" alt="Icon 3" class="objective-icon"> <!-- Replace with your icon path -->
+                                    <p class="objective-text">MENJANA LAPORAN</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ======= Footer ======= -->
+                        <footer class="footer-about d-flex justify-content-around pt-3">
+                            <p>Sebarang Pertanyaan : (+60) 13-392 1279</p>
+                            <p>|</p>
+                            <p>Sekolah Menengah Kebangsaan Panggung Jaya</p>
+                            <p>|</p>
+                            <p>Emel : <a href="#">suehajariah220511@gmail.com</a></p>
+                            <p>|</p>
+                            <p>Lokasi : Panggung Lalat 81300 Gua Musang, Kelantan</p>
+                        </footer><!-- Penutup Footer -->
+
+                        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+                    </div>
+
+                    <!-- Profile Change Password Tab -->
+                    <div class="tab-pane fade profile-change-password" id="profile-change-password">
+                        <div class="chart">
+                            <div class="pt-4 pb-1">
+                                <div class="container3 pb-1">
+                                    <h5 class="card-title text-center pb-0 fs-4">Carta Organisasi</h5>
+
+                                    <!-- Image Upload Section -->
+                                    <div class="mb-3">
+                                        <label for="imageUpload" class="form-label">Upload Image</label>
+                                        <input type="file" class="form-control" id="imageUpload" accept="image/*">
+                                    </div>
+                                    <div class="text-center">
+                                        <img id="imagePreview" src="" alt="Image Preview" style="display: none; max-width: 100%; height: auto;" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // JavaScript to handle image upload and preview
+                        document.getElementById('imageUpload').addEventListener('change', function (event) {
+                            const file = event.target.files[0];
+                            const preview = document.getElementById('imagePreview');
+
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    preview.src = e.target.result;
+                                    preview.style.display = 'block'; // Show the image preview
+                                }
+                                reader.readAsDataURL(file);
+                            } else {
+                                preview.src = '';
+                                preview.style.display = 'none'; // Hide the image if no file is selected
+                            }
+                        });
+                    </script>
+
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/vendor/quill/quill.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/choices.js/public/assets/scripts/choices.js' %}"></script>
+    <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+    <script src="{% static 'assets/vendor/chart.js/chart.umd.js' %}"></script>
+    <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <script>
+        const passwordInput = document.getElementById("yourPassword");
+        const togglePassword = document.getElementById("togglePassword");
+        const toggleIcon = document.getElementById("toggleIcon");
+
+        togglePassword.addEventListener("click", function () {
+            // Toggle the password field type between password and text
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+
+            // Toggle the icon class between bi-eye and bi-eye-slash
+            toggleIcon.classList.toggle("bi-eye");
+            toggleIcon.classList.toggle("bi-eye-slash");
+        });
+      </script>
+      <script>
+        {% if messages %}
+            {% for message in messages %}
+                Swal.fire({
+                    title: "{{ message.tags|title }}",
+                    text: "{{ message }}",
+                    icon: "{{ message.tags }}",
+                    confirmButtonText: 'OK'
+                });
+            {% endfor %}
+        {% endif %}
+        </script>
+</body>
+
+</html>

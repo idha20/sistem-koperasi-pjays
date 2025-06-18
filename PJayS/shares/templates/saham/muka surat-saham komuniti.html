@@ -1,0 +1,481 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Saham - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+    <div class="pagetitle">
+      <h1>Saham Komuniti</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Muka Surat</li>
+          <li class="breadcrumb-item active">Saham Komuniti</li>
+        </ol>
+      </nav>
+    </div><!-- Penutup Page Title -->
+
+    <section class="section">
+      
+      <div class="row">
+        <!-- Saham -->
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jumlah Saham <span>| Terkini</span></h5>
+
+              <!-- Line Chart -->
+              <div id="lineChart"></div>
+
+              <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                      const lineChartData = {{ line_chart_data|safe }};
+                      const chart = new ApexCharts(document.querySelector("#lineChart"), {
+                          series: [{
+                              name: "Modal Syer",
+                              data: lineChartData.map(item => item.total_modal_syer)
+                          }],
+                          chart: {
+                              height: 385,
+                              type: 'line',
+                              zoom: {
+                                  enabled: true
+                              }
+                          },
+                          xaxis: {
+                              categories: lineChartData.map(item => item.month_year)
+                          },
+                          tooltip: {
+                              y: {
+                                  formatter: (val) => `RM ${val}` // Format the tooltip to include RM
+                              }
+                          }
+                      });
+                      chart.render();
+                  });
+              </script>
+              
+              <!-- End Line Chart -->
+
+            </div>
+          </div>
+        </div><!-- Penutup Saham -->
+
+        <div class="col-lg-4">
+
+          <!-- Pie Saham -->
+          <div class="card">
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Jumlah Saham Mengikut Kategori</h5>
+              <!-- Table container with scrollpane -->
+              <div class="table-scrollpane">
+                <div id="sahamPieChart" style="min-height: 416px;" class="echart"></div>
+
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    echarts.init(document.querySelector("#sahamPieChart")).setOption({
+                      tooltip: {
+                        trigger: 'item',
+                        formatter: function (params) {
+                          return `${params.name}: RM ${params.value}`;
+                        }
+                      },
+                      legend: {
+                        top: '5%',
+                        left: 'center'
+                      },
+                      series: [{
+                        name: 'Akses Dari',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                          show: false,
+                          position: 'center'
+                        },
+                        emphasis: {
+                          label: {
+                            show: true,
+                            fontSize: '18',
+                            fontWeight: 'bold'
+                          }
+                        },
+                        labelLine: {
+                          show: false
+                        },
+                        data: [{
+                            value: {{ member_total }},
+                            name: 'Pelajar'
+                          },
+                          {
+                            value: {{ teacher_total }},
+                            name: 'Kakitangan'
+                          }
+                        ]
+                      }]
+                    });
+                  });
+                </script>
+
+              </div>
+            </div>
+          </div><!-- End Pie Saham -->
+          
+        </div>
+
+
+        <div class="col-lg-8">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">Jumlah Saham Pelajar Mengikut Tingkatan </h5>
+      
+                  <!-- Column Chart -->
+                  <div id="columnChart"></div>
+      
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const chartData = {{ bar_chart_data|safe }};
+                
+                        const categories = chartData.map(item => item.tingkatan);
+                        const seriesData = chartData.map(item => item.total_saham);
+                
+                        new ApexCharts(document.querySelector("#columnChart"), {
+                            series: [{
+                                name: 'Jumlah Saham',
+                                data: seriesData
+                            }],
+                            chart: {
+                                type: 'bar',
+                                height: 385
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: false,
+                                    columnWidth: '55%',
+                                    endingShape: 'rounded'
+                                },
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                show: true,
+                                width: 2,
+                                colors: ['transparent']
+                            },
+                            xaxis: {
+                                categories: categories
+                            },
+                            yaxis: {
+                                title: {
+                                    text: 'Saham (RM)'
+                                }
+                            },
+                            fill: {
+                                opacity: 1
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: function(val) {
+                                        return "RM " + val
+                                    }
+                                }
+                            }
+                        }).render();
+                    });
+                </script>
+                  <!-- End Column Chart -->
+      
+              </div>
+          </div>
+      </div>
+
+    <hr>
+        
+        <!-- Saham -->
+        <div class="col-lg-6">
+          <div class="pagetitle">
+            <h1>Saham Kakitangan</h1>
+          </div><!-- Penutup Page Title -->
+          <div class="card">
+            <div class="card-body">
+               <div class="card">
+                <div class="card-body">
+                  <!-- Pelajar Additional Options -->
+                  <div id="pelajar-options">
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Nama</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="filterNamaCikgu" name="nama" placeholder="Carian Nama Kakitangan">
+                        {% comment %} {{ form.nama }} {% endcomment %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" id="teacher-data-table">
+                <div class="card-body">
+                  <h5 class="card-title">Maklumat Saham Kakitangan</h5>
+                  <!-- Table container with scrollpane -->
+                  <div class="table-scrollpane">
+                    <!-- Table with stripped rows -->
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID TEACHER</th>
+                          <th>Nama</th>
+                          <th>Modal Syer (RM)</th>
+                          <th>Tarikh Pendaftaran</th>
+                          <th>Transaksi Akaun</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for teacher in teacher %}
+                        <tr>
+                          <td>{{ teacher.teacher_id }}</td>
+                          <td>{{ teacher.nama }}</td>
+                          <td>{{ teacher.modal_syer }}</td>
+                          <td>{{ teacher.tarikh_daftar }}</td>
+                          <td>
+                            <form method="POST" action="{% url 'view_account_teacher' teacher.teacher_id %}">
+                              <div class="form-btn">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Lihat Lagi</button>
+                              </div>
+                            </form>
+                          </td> <!-- Button yang menyimpan id cikgu untuk displaykan di form -->
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="5" class="text-center">⚠️ Tiada data kakitangan</td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Repeat the rows for other students -->
+
+                      </tbody>
+                      
+                    </table>
+                    <!-- End Table with stripped rows -->
+                  </div>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+
+        <!-- Saham -->
+        <div class="col-lg-6">
+          <div class="pagetitle">
+            <h1>Saham Pelajar</h1>
+          </div><!-- Penutup Page Title -->
+          <div class="card">
+            <div class="card-body">
+              <div class="card">
+                <div class="card-body">
+                  <!-- Pelajar Additional Options -->
+                  <div id="pelajar-options">
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Nama</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="filterNama" name="nama" placeholder="Carian Nama Pelajar">
+                        {% comment %} {{ form.nama }} {% endcomment %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" id="student-data-table">
+                <div class="card-body">
+                  <h5 class="card-title">Maklumat Saham Pelajar</h5>
+                  <!-- Table container with scrollpane -->
+                  <div class="table-scrollpane">
+                    <!-- Table with stripped rows -->
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID STUDENT</th>
+                          <th>Nama</th>
+                          <th>Modal Syer (RM)</th>
+                          <th>Tarikh Pendaftaran</th>
+                          <th>Transaksi Akaun</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for member in member %}
+                        <tr>
+                          <td>{{ member.member_id }}</td>
+                          <td>{{ member.nama }}</td>
+                          <td>{{ member.modal_syer }}</td>
+                          <td>{{ member.tarikh_daftar }}</td>
+                          <td>
+                            <form method="POST" action="{% url 'view_account_student' member.member_id %}">
+                              <div class="form-btn">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Lihat Lagi</button>
+                              </div>
+                            </form>
+                          </td> <!-- Button yang menyimpan id cikgu untuk displaykan di form -->
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="5" class="text-center">⚠️ Tiada data pelajar</td>
+                        </tr>
+                      {% endfor %}
+                        <!-- Repeat the rows for other students -->
+
+                      </tbody>
+                      
+                    </table>
+                    <!-- End Table with stripped rows -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- Saham -->
+        <div class="col-lg-12">
+          <div class="pagetitle">
+            <h1>Pengurusan Pulangan Saham Kakitangan</h1>
+          </div><!-- Penutup Page Title -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Maklumat Saham Kakitangan</h5>
+              <!-- Table container with scrollpane -->
+              <div class="table-scrollpane">
+                <!-- Table with stripped rows -->
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>ID TEACHER</th>
+                      <th>Nama</th>
+                      <th>Modal Syer (RM)</th>
+                      <th>Tarikh Pendaftaran</th>
+                      <th>Tindakan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for teacher in teacher %}
+                    <tr>
+                      <td>{{ teacher.teacher_id }}</td>
+                      <td>{{ teacher.nama }}</td>
+                      <td>{{ teacher.modal_syer }}</td>
+                      <td>{{ teacher.tarikh_daftar }}</td>
+                      <td>
+                        <form method="POST" action="{% url 'pulangan_saham_page' teacher.teacher_id %}">
+                          <div class="form-btn">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Pemulangan</button>
+                          </div>
+                        </form>
+                      </td> <!-- Button yang menyimpan id cikgu untuk displaykan di form -->
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="5" class="text-center">⚠️ Tiada data pelajar</td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Repeat the rows for other students -->
+
+                  </tbody>
+                  
+                </table>
+                <!-- End Table with stripped rows -->
+              </div>
+          
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // ========== STUDENT FILTER ==========
+    const nameFilterInput = document.getElementById("filterNama"); // Student filter input
+    const tableBody = document.querySelector("#student-data-table tbody");
+    const tableRows = tableBody ? tableBody.querySelectorAll("tr") : [];
+
+    function applyNameFilter() {
+        const searchTerm = nameFilterInput?.value.trim().toLowerCase();
+        let visibleRowCount = 0;
+
+        tableRows.forEach((row) => {
+            const rowName = row.cells[1]?.textContent.trim().toLowerCase() || "";
+            if (!searchTerm || rowName.includes(searchTerm)) {
+                row.style.display = "";
+                visibleRowCount++;
+            } else {
+                row.style.display = "none";
+            }
+        });
+
+        checkIfPelajarTableIsEmpty(visibleRowCount);
+    }
+
+    function checkIfPelajarTableIsEmpty(visibleRowCount) {
+        let noDataRow = document.getElementById("no-data-pelajar");
+        if (visibleRowCount === 0) {
+            if (!noDataRow) {
+                let tr = document.createElement("tr");
+                tr.id = "no-data-pelajar";
+                tr.innerHTML = `<td colspan="5" class="text-center">⚠️ Tiada data pelajar</td>`;
+                tableBody.appendChild(tr);
+            }
+        } else {
+            noDataRow?.remove();
+        }
+    }
+
+    nameFilterInput?.addEventListener("input", applyNameFilter);
+
+    // ========== TEACHER FILTER ==========
+    const teacherFilterInput = document.getElementById("filterNamaCikgu"); // Teacher filter input
+    const teacherTableBody = document.querySelector("#teacher-data-table tbody");
+    const teacherRows = teacherTableBody ? teacherTableBody.querySelectorAll("tr") : [];
+
+    function applyTeacherNameFilter() {
+        const searchTerm = teacherFilterInput?.value.trim().toLowerCase();
+        let visibleRowCount = 0;
+
+        teacherRows.forEach((row) => {
+            const rowName = row.cells[1]?.textContent.trim().toLowerCase() || "";
+            if (!searchTerm || rowName.includes(searchTerm)) {
+                row.style.display = "";
+                visibleRowCount++;
+            } else {
+                row.style.display = "none";
+            }
+        });
+
+        checkIfTeacherTableIsEmpty(visibleRowCount);
+    }
+
+    function checkIfTeacherTableIsEmpty(visibleRowCount) {
+        let noDataRow = document.getElementById("no-data-cikgu");
+        if (visibleRowCount === 0) {
+            if (!noDataRow) {
+                let tr = document.createElement("tr");
+                tr.id = "no-data-cikgu";
+                tr.innerHTML = `<td colspan="5" class="text-center">⚠️ Tiada data cikgu</td>`;
+                teacherTableBody.appendChild(tr);
+            }
+        } else {
+            noDataRow?.remove();
+        }
+    }
+
+    teacherFilterInput?.addEventListener("input", applyTeacherNameFilter);
+  });
+</script>
+
+  
+{% endblock content %}

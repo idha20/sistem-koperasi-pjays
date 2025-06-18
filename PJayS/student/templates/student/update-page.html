@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Kemas Kini Data Pelajar - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Kemas Kini Borang Pendaftaran Pelajar</h5>
+
+      <!-- Kemas Kini Form Elements -->
+
+      <form method="POST">
+        {% csrf_token %}
+        {% comment %} {{form.as_p}} {% endcomment %}
+        <div class="row mb-3">
+          <label for="inputICPelajar" class="col-sm-2 col-form-label">No. IC</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputICPelajar" placeholder="Masukkan nombor kad pengenalan pelajar" name="ic_pelajar" value="{{ member.ic_pelajar }}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="inputNamaPelajar" class="col-sm-2 col-form-label">Nama</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputNamaPelajar" placeholder="Masukkan nama pelajar" name="nama" value="{{ member.nama }}">
+          </div>
+        </div>
+
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Jantina</legend>
+          <div class="col-sm-10 d-flex">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="jantina" id="jantinaLelaki" value="Lelaki" {% if member.jantina == 'Lelaki' %}checked{% endif %}>
+              <label class="form-check-label" for="jantinaLelaki">
+                  Lelaki
+              </label>
+          </div>
+          <div class="form-check ms-3">
+              <input class="form-check-input" type="radio" name="jantina" id="jantinaPerempuan" value="Perempuan" {% if member.jantina == 'Perempuan' %}checked{% endif %}>
+              <label class="form-check-label" for="jantinaPerempuan">
+                  Perempuan
+              </label>
+          </div>
+          </div>
+        </fieldset>
+
+        <div class="row mb-3">
+          <label for="inputAlamatPelajar" class="col-sm-2 col-form-label">Alamat Rumah</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" id="inputAlamatPelajar" style="height: 100px" placeholder="Sila masukkan alamat rumah pelajar" name="alamat_rumah" >{{ member.alamat_rumah }}</textarea>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-sm-2 col-form-label">Tingkatan</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="inputTingkatanPelajar" aria-label="Default select example" name="tingkatan">
+              <option selected disabled>Pilih</option>
+              <option value="-" {% if member.tingkatan == '-' %}selected{% endif %}>-</option>
+              <option value="1" {% if member.tingkatan == '1' %}selected{% endif %}>1</option>
+              <option value="2" {% if member.tingkatan == '2' %}selected{% endif %}>2</option>
+              <option value="3" {% if member.tingkatan == '3' %}selected{% endif %}>3</option>
+              <option value="4" {% if member.tingkatan == '4' %}selected{% endif %}>4</option>
+              <option value="5" {% if member.tingkatan == '5' %}selected{% endif %}>5</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-sm-2 col-form-label">Kelas</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="inputKelasPelajar" aria-label="Default select example" name="kelas">
+              <option selected disabled>Pilih</option>
+              <option value="-" {% if member.kelas == '-' %}selected{% endif %}>-</option>
+              <option value="ANGGERIK" {% if member.kelas == 'ANGGERIK' %}selected{% endif %}>ANGGERIK</option>
+              <option value="CEMPAKA" {% if member.kelas == 'CEMPAKA' %}selected{% endif %}>CEMPAKA</option>
+              <option value="DAHLIA" {% if member.kelas == 'DAHLIA' %}selected{% endif %}>DAHLIA</option>
+              <option value="MAWAR" {% if member.kelas == 'MAWAR' %}selected{% endif %}>MAWAR</option>
+              <option value="SEROJA" {% if member.kelas == 'SEROJA' %}selected{% endif %}>SEROJA</option>
+              <option value="TERATAI" {% if member.kelas == 'TERATAI' %}selected{% endif %}>TERATAI</option>
+              <option value="UM" {% if member.kelas == 'UM' %}selected{% endif %}>UM</option>
+              <option value="UKM" {% if member.kelas == 'UKM' %}selected{% endif %}>UKM</option>
+              <option value="USM" {% if member.kelas == 'USM' %}selected{% endif %}>USM</option>
+              <option value="LILY" {% if member.kelas == 'LILY' %}selected{% endif %}>LILY</option>
+            </select>
+          </div>
+        </div>
+
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+          <div class="col-sm-10 d-flex">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ahli" id="ahliAktif" value="Aktif" {% if member.ahli == 'Aktif' %}checked{% endif %}>
+              <label class="form-check-label" for="ahliAktif">
+                Aktif
+              </label>
+            </div>
+            <div class="form-check ms-3">
+              <input class="form-check-input" type="radio" name="ahli" id="ahliTidakAktif" value="Tidak Aktif" {% if member.ahli == 'Tidak Aktif' %}checked{% endif %}>
+              <label class="form-check-label" for="ahliTidakAktif">
+                Tidak Aktif
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+          <div class="col-sm-10 d-flex">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="statusSaham" value="Selesai" {% if member.status == 'Selesai' %}checked{% endif %}>
+              <label class="form-check-label" for="ahliAktif">
+                Selesai
+              </label>
+              {% comment %} {{ form.ahli }} {% endcomment %}
+            </div>
+            <div class="form-check ms-3">
+              <input class="form-check-input" type="radio" name="status" id="statusSaham" value="Belum Selesai" {% if member.status == 'Belum Selesai' %}checked{% endif %}>
+              <label class="form-check-label" for="statusSaham">
+                Belum Selesai
+              </label>
+              {% comment %} {{ form.ahli }} {% endcomment %}
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="row mb-3">
+          <label for="modalSyer" class="col-sm-2 col-form-label">Modal Syer(RM)</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="modalSyer" placeholder="Sila masukkan nilai modal syer pelajar" name="modal_syer" value="{{ member.modal_syer }}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="inputDate" class="col-sm-2 col-form-label">Tarikh Pendaftaran</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" name="tarikh_daftar" value="{{ member.tarikh_daftar|date:'Y-m-d' }}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-xs-12 d-flex justify-content-center">
+            <div>
+              <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-btn">
+                  <button type="submit"  class="btn btn-primary">Kemas Kini</button> <!-- Button simpan semua kemas kini yang telah dibuat -->
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </form><!-- End General Form Elements -->
+
+    </div>
+  </div>
+{% endblock %}

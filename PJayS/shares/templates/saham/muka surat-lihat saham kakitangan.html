@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Lihat Lagi {{ teacher.teacher_id }} - PJays KoopSystem <!-- Try show ID dekat title -->
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Maklumat Saham Kakitangan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item">Saham Komuniti</li> 
+      <li class="breadcrumb-item active">Lihat Lagi</li>
+    </ol>
+  </nav>
+</div><!-- Penutup Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Saham bagi ID Teacher</h5>
+          
+          <!-- View Share Elements -->
+          <form method="POST" action="{% url 'page_tambah_saham_teacher' teacher.teacher_id %}">
+            {% csrf_token %}
+            <div class="row mb-3">
+              <label for="tarikh_pendaftaran" class="col-sm-2 col-form-label">Tarikh Pendaftaran</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" name="tarikh_pendaftaran" id="tarikh_pendaftaran" value="{{ teacher.tarikh_daftar|date:'Y-m-d' }}" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="report-type" class="col-sm-2 col-form-label">ID Kakitangan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="IDStaff" name="IDStaff" value="{{ teacher.teacher_id }}" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="namaStaff" class="col-sm-2 col-form-label">Nama</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="namaStaff" name="nama" value="{{ teacher.nama }}" disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="modalSyerStaff" class="col-sm-2 col-form-label">Nilai Syer Semasa (RM)</label>
+              <div class="col-sm-10 d-flex align-items-center">
+                <input type="number" class="form-control me-2" id="modalSyerStaff" name="modal_syer" value="{{ teacher.modal_syer }}" disabled>
+                
+                  <div class="form-btn">
+                    <button type="submit"  class="btn btn-primary">Tambah Saham</button>
+                  </div>
+
+              </div>
+            </div>
+          </form>
+
+          <form action="{% url 'share_page' %}" method="post">
+            {% csrf_token %}
+            <div class="form-btn">
+                <button type="submit" name="kembali" class="btn btn-primary" style="width: 150px;">Kembali</button>
+            </div>
+          </form>
+          <!-- View Share Elements -->
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Saham -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Rekod Urus Niaga Syer Kakitangan</h5>
+          <!-- Table container with scrollpane -->
+          <div class="table-scrollpane">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Modal Syer (RM)</th>
+                  <th>Tarikh Penambahan</th>
+                  <th>Komen/Nota Tambahan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for saham in saham %}
+                <tr>
+                    <td>{{ saham.amount }}</td>
+                    <td>{{ saham.date_saham_added }}</td>
+                    <td>{{ saham.note }}</td>
+                  </tr>
+                {% endfor %}
+                <!-- Repeat the rows for other students -->
+
+              </tbody>
+              
+            </table>
+            <!-- End Table with stripped rows -->
+          </div>
+      
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock  %}

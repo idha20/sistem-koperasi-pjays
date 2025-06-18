@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Kemas Kini Data Pelajar - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Kemas Kini Borang Pendaftaran Pelajar</h5>
+
+      <!-- Kemas Kini Form Elements -->
+
+      <form method="POST">
+        {% csrf_token %}
+        {% comment %} {{form.as_p}} {% endcomment %}
+        <div class="row mb-3">
+          <label for="inputICCikgu" class="col-sm-2 col-form-label">No. IC</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputICCikgu" placeholder="Masukkan nombor kad pengenalan cikgu" name="ic_cikgu" value="{{ teacher.ic_cikgu }}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="inputNamaCikgu" class="col-sm-2 col-form-label">Nama</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputNamaCikgu" placeholder="Masukkan nama cikgu" name="nama" value="{{ teacher.nama }}">
+          </div>
+        </div>
+
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Jantina</legend>
+          <div class="col-sm-10 d-flex">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="jantina" id="jantinaLelaki" value="Lelaki" {% if teacher.jantina == 'Lelaki' %}checked{% endif %}>
+              <label class="form-check-label" for="jantinaLelaki">
+                  Lelaki
+              </label>
+          </div>
+          <div class="form-check ms-3">
+              <input class="form-check-input" type="radio" name="jantina" id="jantinaPerempuan" value="Perempuan" {% if teacher.jantina == 'Perempuan' %}checked{% endif %}>
+              <label class="form-check-label" for="jantinaPerempuan">
+                  Perempuan
+              </label>
+          </div>
+          </div>
+        </fieldset>
+
+        <div class="row mb-3">
+          <label for="inputAlamatCikgu" class="col-sm-2 col-form-label">Alamat Rumah</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" id="inputAlamatCikgu" style="height: 100px" placeholder="Sila masukkan alamat rumah cikgu" name="alamat_rumah" >{{ teacher.alamat_rumah }}</textarea>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-sm-2 col-form-label">Pangkat</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="inputPangkatCikgu" aria-label="Default select example" name="pangkat">
+              <option selected disabled>Pilih</option>
+              <option value="Pengerusi" {% if teacher.pangkat == 'Pengerusi' %}selected{% endif %}>Pengerusi</option>
+              <option value="Naib Pengerusi" {% if teacher.pangkat == 'Naib Pengerusi' %}selected{% endif %}>Naib Pengerusi</option>
+              <option value="Pegawai Ehwal Ekonomi" {% if teacher.pangkat == 'Pegawai Ehwal Ekonomi' %}selected{% endif %}>Pegawai Ehwal Ekonomi</option>
+              <option value="Penolong Pegawai Ehwal Ekonomi" {% if teacher.pangkat == 'Penolong Pegawai Ehwal Ekonomi' %}selected{% endif %}>Penolong Pegawai Ehwal Ekonomi</option>
+              <option value="Juruadit" {% if teacher.pangkat == 'Juruadit' %}selected{% endif %}>Juruadit</option>
+              <option value="Penolong Juruaudit" {% if teacher.pangkat == 'Penolong Juruaudit' %}selected{% endif %}>Penolong Juruaudit</option>
+              <option value="Guru Biasa" {% if teacher.pangkat == 'Guru Biasa' %}selected{% endif %}>Guru Biasa</option>
+              <option value="Lain-lain" {% if teacher.pangkat == 'Lain-lain' %}selected{% endif %}>Lain-lain</option>
+            </select>
+          </div>
+        </div>
+
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+          <div class="col-sm-10 d-flex">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ahli" id="ahliAktif" value="Aktif" {% if teacher.ahli == 'Aktif' %}checked{% endif %}>
+              <label class="form-check-label" for="ahliAktif">
+                Aktif
+              </label>
+            </div>
+            <div class="form-check ms-3">
+              <input class="form-check-input" type="radio" name="ahli" id="ahliTidakAktif" value="Tidak Aktif" {% if teacher.ahli == 'Tidak Aktif' %}checked{% endif %}>
+              <label class="form-check-label" for="ahliTidakAktif">
+                Tidak Aktif
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+          <div class="col-sm-10 d-flex">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="statusSaham" value="Selesai" {% if teacher.status == 'Selesai' %}checked{% endif %}>
+              <label class="form-check-label" for="ahliAktif">
+                Selesai
+              </label>
+              {% comment %} {{ form.ahli }} {% endcomment %}
+            </div>
+            <div class="form-check ms-3">
+              <input class="form-check-input" type="radio" name="status" id="statusSaham" value="Belum Selesai" {% if teacher.status == 'Belum Selesai' %}checked{% endif %}>
+              <label class="form-check-label" for="statusSaham">
+                Belum Selesai
+              </label>
+              {% comment %} {{ form.ahli }} {% endcomment %}
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="row mb-3">
+          <label for="modalSyer" class="col-sm-2 col-form-label">Modal Syer(RM)</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="modalSyer" placeholder="Sila masukkan nilai modal syer pelajar" name="modal_syer" value="{{ teacher.modal_syer }}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="inputDate" class="col-sm-2 col-form-label">Tarikh Pendaftaran</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" name="tarikh_daftar" value="{{ teacher.tarikh_daftar|date:'Y-m-d' }}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-xs-12 d-flex justify-content-center">
+            <div>
+              <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-btn">
+                  <button type="submit"  class="btn btn-primary">Kemas Kini</button> <!-- Button simpan semua kemas kini yang telah dibuat -->
+                </div>
+                </form>
+            </div>
+          </div>
+        </div>
+
+      </form><!-- End General Form Elements -->
+
+    </div>
+  </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,373 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Padam Data Pelajar - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+
+<div class="pagetitle">
+  <h1>Kemas Kini Data Pelajar Kumpulan</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Muka Surat</li>
+      <li class="breadcrumb-item">Pelajar</li>
+      <li class="breadcrumb-item">Kemas Kini</li>
+      <li class="breadcrumb-item active">Kumpulan</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <!-- Button Group -->
+      <div class="btn-nav" style="position: relative;">
+        <a href="{% url 'update_student_page' %}">
+          <button type="button" class="btn-Individu ms-2">Individu</button>
+        </a>
+        <a href="{% url 'update_student_kumpulan_page' %}">
+          <button type="button" class="btn-Kumpulan active ms-2">Kumpulan</button>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="card">
+            <div class="card-body">
+              <form method="POST" action="{% url 'update_student_kumpulan_page' %}">
+                {% csrf_token %}
+
+                <fieldset>
+                  <h5 class="card-title">Tapisan</h5>
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Tingkatan</label>
+                    <div class="col-sm-10">
+                      <select class="form-select" id="filterTingkatan" aria-label="Default select example" name="tingkatan">
+                        <option selected disabled>Pilih</option>
+                        <option value="Pilih">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Kelas</label>
+                    <div class="col-sm-10">
+                      <select class="form-select" id="filterKelas" aria-label="Default select example" name="kelas">
+                        <option selected disabled>Pilih</option>
+                        <option value="Pilih">-</option>
+                        <option value="ANGGERIK">ANGGERIK</option>
+                        <option value="CEMPAKA">CEMPAKA</option>
+                        <option value="DAHLIA">DAHLIA</option>
+                        <option value="MAWAR">MAWAR</option>
+                        <option value="SEROJA">SEROJA</option>
+                        <option value="TERATAI">TERATAI</option>
+                        <option value="UM">UM</option>
+                        <option value="UKM">UKM</option>
+                        <option value="USM">USM</option>
+                        <option value="LILY">LILY</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                  <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+                  <div class="col-sm-10 d-flex flex-wrap">
+                    <div class="form-check me-3">
+                      <input class="form-check-input" type="radio" name="ahli" id="ahliAktifPelajar" value="Aktif" />
+                      <label class="form-check-label" for="ahliAktifPelajar">Aktif</label>
+                    </div>
+                    <div class="form-check me-3">
+                      <input class="form-check-input" type="radio" name="ahli" id="ahliTidakAktifPelajar" value="Tidak Aktif" />
+                      <label class="form-check-label" for="ahliTidakAktifPelajar">Tidak Aktif</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="ahli" id="ahliKeseluruhan" value="keseluruhan" />
+                      <label class="form-check-label" for="ahliKeseluruhan">Keseluruhan</label>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Status Saham Fieldset -->
+                <fieldset class="row mb-3">
+                  <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+                  <div class="col-sm-10 d-flex flex-wrap">
+                    <div class="form-check me-3">
+                      <input class="form-check-input" type="radio" name="status" id="statusSahamPelajar" value="Selesai" />
+                      <label class="form-check-label" for="statusSahamPelajar">Selesai</label>
+                    </div>
+                    <div class="form-check me-3">
+                      <input class="form-check-input" type="radio" name="status" id="statusSahamBelumPelajar" value="Belum Selesai" />
+                      <label class="form-check-label" for="statusSahamBelumPelajar">Belum Selesai</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="status" id="sahamKeseluruhan" value="keseluruhan" />
+                      <label class="form-check-label" for="sahamKeseluruhan">Keseluruhan</label>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <hr>
+
+                <fieldset>
+                  <h5 class="card-title">Kemaskini Kumpulan</h5>
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Tingkatan Baru</label>
+                    <div class="col-sm-10">
+                      <select class="form-select" id="newTingkatan" name="new_tingkatan">
+                        <option value="" selected disabled>Pilih</option>
+                        <option value="-">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Kelas Baru</label>
+                    <div class="col-sm-10">
+                      <select class="form-select" id="newKelas" name="new_kelas">
+                        <option value="" selected disabled>Pilih</option>
+                        <option value="ANGGERIK">ANGGERIK</option>
+                        <option value="CEMPAKA">CEMPAKA</option>
+                        <option value="DAHLIA">DAHLIA</option>
+                        <option value="MAWAR">MAWAR</option>
+                        <option value="SEROJA">SEROJA</option>
+                        <option value="TERATAI">TERATAI</option>
+                        <option value="UM">UM</option>
+                        <option value="UKM">UKM</option>
+                        <option value="USM">USM</option>
+                        <option value="LILY">LILY</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                  <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+                  <div class="col-sm-10 d-flex">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="new_status" id="statusSaham" value="Selesai">
+                      <label class="form-check-label" for="statusSaham">
+                        Selesai
+                      </label>
+                      {% comment %} {{ form.ahli }} {% endcomment %}
+                    </div>
+                    <div class="form-check ms-3">
+                      <input class="form-check-input" type="radio" name="new_status" id="statusSaham" value="Belum Selesai">
+                      <label class="form-check-label" for="statusSaham">
+                        Belum Selesai
+                      </label>
+                      {% comment %} {{ form.ahli }} {% endcomment %}
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                  <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+                  <div class="col-sm-10 d-flex">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="new_ahli" id="ahliAktif" value="Aktif">
+                      <label class="form-check-label" for="ahliAktif">
+                        Aktif
+                      </label>
+                      {% comment %} {{ form.ahli }} {% endcomment %}
+                    </div>
+                    <div class="form-check ms-3">
+                      <input class="form-check-input" type="radio" name="new_ahli" id="ahliTidakAktif" value="Tidak Aktif">
+                      <label class="form-check-label" for="ahliTidakAktif">
+                        Tidak Aktif
+                      </label>
+                      {% comment %} {{ form.ahli }} {% endcomment %}
+                    </div>
+                  </div>
+                </fieldset>
+
+                <hr>
+
+                <fieldset>
+                  <h5 class="card-title">Maklumat Data Pelajar</h5>
+                  <!-- Table container with scrollpane -->
+                  <div class="table-scrollpane" id="student-data-table">
+                    <table class="table datatable" id="tblTambah">
+                      <thead>
+                        <tr>
+                          <th>Pilih</th>
+                          <th>Bil.</th>
+                          <th>ID member</th>
+                          <th>No. IC</th>
+                          <th>Nama</th>
+                          <th>Jantina</th>
+                          <th>Alamat Rumah</th>
+                          <th>Tingkatan</th>
+                          <th>Kelas</th>
+                          <th>Ahli</th>
+                          <th>Status Saham</th>
+                          <th>Modal Syer(RM)</th>
+                          <th data-type="date" data-format="MM/DD/YYYY">Tarikh Pendaftaran</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in member %}
+                        <tr class="student-row" data-tingkatan="{{ i.tingkatan }}" data-kelas="{{ i.kelas }}" data-status="{{ i.status }}" data-ahli="{{ i.ahli }}">
+                          <td>
+                            <input type="checkbox" name="selected_students[]" value="{{ i.member_id }}">
+                          </td>
+                          <td class="bil-number">{{ forloop.counter }}</td>
+                          <td>{{ i.member_id }}</td>
+                          <td>{{ i.ic_pelajar }}</td>
+                          <td>{{ i.nama }}</td>
+                          <td>{{ i.jantina }}</td>
+                          <td>{{ i.alamat_rumah }}</td>
+                          <td>{{ i.tingkatan }}</td>
+                          <td>{{ i.kelas }}</td>
+                          <td>{{ i.ahli }}</td>
+                          <td>{{ i.status}}</td>
+                          <td>{{ i.modal_syer }}</td>
+                          <td>{{ i.tarikh_daftar }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="13" class="text-center">⚠️ Tiada data pelajar</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <br>
+
+                  <div class="form-check">
+                    <input type="checkbox" id="select-all" class="form-check-input">
+                    <label class="form-check-label" for="select-all">Pilih Semua</label>
+                  </div>
+                </fieldset>
+
+                <div class="form-btn">
+                  <button type="submit" class="btn btn-primary">Kemas Kini Pelajar Terpilih</button>
+                </div>
+
+              </form>
+            </div><!-- End Card Body -->
+          </div><!-- End Card -->
+        </div><!-- End Card Body -->
+      </div><!-- End Card -->
+    </div><!-- End Col -->
+  </div><!-- End Row -->
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const filterTingkatan = document.getElementById('filterTingkatan');
+    const filterKelas = document.getElementById('filterKelas');
+    const filterStatus = document.querySelectorAll('input[name="status"]');
+    const filterAhli = document.querySelectorAll('input[name="ahli"]');
+    const rows = document.querySelectorAll('.student-row');
+    const form = document.querySelector('form');
+
+    function filterRows() {
+        const tingkatanValue = filterTingkatan.value;
+        const kelasValue = filterKelas.value;
+        const ahliValue = document.querySelector('input[name="ahli"]:checked')?.value || "keseluruhan";
+        const statusValue = document.querySelector('input[name="status"]:checked')?.value || "keseluruhan";
+        
+        let visibleRowCount = 0;
+        let counter = 1;
+
+        rows.forEach(row => {
+            const rowTingkatan = row.getAttribute('data-tingkatan');
+            const rowKelas = row.getAttribute('data-kelas');
+            const rowStatus = row.getAttribute('data-status');
+            const rowAhli = row.getAttribute('data-ahli');
+
+            const tingkatanMatch = (tingkatanValue === "Pilih" || rowTingkatan === tingkatanValue);
+            const kelasMatch = (kelasValue === "Pilih" || rowKelas === kelasValue);
+            const statusMatch = (statusValue === "keseluruhan" || rowStatus === statusValue);
+            const ahliMatch = (ahliValue === "keseluruhan" || rowAhli === ahliValue);
+
+            if (tingkatanMatch && kelasMatch && statusMatch && ahliMatch) {
+                row.style.display = '';
+                visibleRowCount++;
+                row.querySelector('input[type="checkbox"]').disabled = false;
+                row.querySelector('.bil-number').textContent = counter++;
+            } else {
+                row.style.display = 'none';
+                row.querySelector('input[type="checkbox"]').checked = false;
+                row.querySelector('input[type="checkbox"]').disabled = true;
+            }
+        });
+
+        checkIfPelajarTableIsEmpty(visibleRowCount);
+        updateSelectAllCheckbox();
+    }
+
+    function checkIfPelajarTableIsEmpty(visibleRowCount) {
+        let tbody = document.querySelector("#student-data-table tbody");
+        let noDataRow = document.getElementById("no-data-pelajar");
+
+        if (visibleRowCount === 0) {
+            if (!noDataRow) {
+                let tr = document.createElement("tr");
+                tr.id = "no-data-pelajar";
+                tr.innerHTML = `<td colspan="13" class="text-center">⚠️ Tiada data pelajar</td>`;
+                tbody.appendChild(tr);
+            }
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.disabled = true; // Disable when no rows are available
+        } else {
+            if (noDataRow) {
+                noDataRow.remove();
+            }
+            selectAllCheckbox.disabled = false; // Re-enable when data is available
+        }
+    }
+
+    function updateSelectAllCheckbox() {
+        const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none');
+        
+        if (visibleRows.length === 0) {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.disabled = true; // Disable if no visible rows
+        } else {
+            const allVisibleChecked = visibleRows.every(row => row.querySelector('input[type="checkbox"]').checked);
+            const anyVisibleChecked = visibleRows.some(row => row.querySelector('input[type="checkbox"]').checked);
+
+            selectAllCheckbox.checked = allVisibleChecked;
+            selectAllCheckbox.indeterminate = !allVisibleChecked && anyVisibleChecked;
+            selectAllCheckbox.disabled = false; // Enable if rows are available
+        }
+    }
+
+    filterTingkatan.addEventListener('change', filterRows);
+    filterKelas.addEventListener('change', filterRows);
+    filterStatus.forEach(radio => radio.addEventListener('change', filterRows));
+    filterAhli.forEach(radio => radio.addEventListener('change', filterRows));
+    filterRows();
+
+    form.addEventListener('submit', function() {
+        rows.forEach(row => {
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (row.style.display === 'none') {
+                checkbox.disabled = true;
+            }
+        });
+    });
+});
+
+</script>
+
+
+
+{% endblock %}

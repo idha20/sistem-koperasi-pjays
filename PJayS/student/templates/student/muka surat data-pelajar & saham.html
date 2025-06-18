@@ -1,0 +1,482 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Data Pelajar - PJays KoopSystem
+{% endblock %}
+
+{% block content %}
+    <div class="pagetitle">
+      <h1>Data Pelajar</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Muka Surat</li>
+          <li class="breadcrumb-item active">Ringkasan Pelajar</li>
+        </ol>
+      </nav>
+    </div><!-- Penutup Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+          <!-- Left side columns -->
+          <div class="col-lg-5">
+              <div class="card">
+
+                  <div class="filter">
+                      <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                          <li><a class="dropdown-item" href="{% url 'register_student' %}">Pelajar</a></li>
+                          <li><a class="dropdown-item" href="{% url 'share_page' %}">Saham</a></li>
+                      </ul>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Info Pelajar <span>| Terkini</span></h5>
+
+                      <!-- Pelajar dan Kakitangan Cards -->
+                      <div class="row">
+                          <!-- Pelajar Card -->
+                          <div class="col-xxl-6 col-md-6">
+                              <div class="card info-card student-card">
+                                  <div class="filter">
+                                      <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                          <li><a class="dropdown-item" href="{% url 'register_student' %}">Lagi</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="card-body">
+                                      <h5 class="card-title">Keseluruhan Pelajar</h5>
+                                      <div class="d-flex align-items-center">
+                                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                              <i class="bi bi-people"></i>
+                                          </div>
+                                          <div class="ps-3">
+                                              <h6>{{ total_member }}</h6>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div><!-- Penutup Pelajar Card -->
+                          <!-- Pelajar Card -->
+                          <div class="col-xxl-6 col-md-6">
+                            <div class="card info-card student-card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li><a class="dropdown-item" href="{% url 'share_page' %}">Lagi</a></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Saham Pelajar</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-coin"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>RM{{ total_saham_member }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Penutup Pelajar Card -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Left side columns -->
+            <!-- Status Ahli Pie Chart -->
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Status Ahli</h5>
+                  <div id="studentStatusPieChart1" style="min-height: 220px;" class="echart"></div>
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      echarts.init(document.querySelector("#studentStatusPieChart1")).setOption({
+                        tooltip: {
+                          trigger: 'item',
+                          formatter: function (params) {
+                            return `${params.name}: ${params.value} Pelajar`;
+                          }
+                        },
+                        legend: {
+                          top: '5%',
+                          left: 'center'
+                        },
+                        series: [{
+                          name: 'Status Pelajar',
+                          type: 'pie',
+                          radius: ['40%', '70%'],
+                          avoidLabelOverlap: false,
+                          label: { show: false, position: 'center' },
+                          emphasis: {
+                            label: { show: true, fontSize: '18', fontWeight: 'bold' }
+                          },
+                          labelLine: { show: false },
+                          data: [
+                            { value: {{ pelajar_aktif }}, name: 'Aktif' },
+                            { value: {{ pelajar_tidak_aktif }}, name: 'Tidak Aktif' }
+                          ]
+                        }]
+                      });
+                    });
+                  </script>
+                </div>
+              </div>
+            </div>
+
+            <!-- Status Pengambilan Saham Pie Chart -->
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Status Saham</h5>
+                  <div id="studentStatusPieChart2" style="min-height: 220px;" class="echart"></div>
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      echarts.init(document.querySelector("#studentStatusPieChart2")).setOption({
+                        tooltip: {
+                          trigger: 'item',
+                          formatter: function (params) {
+                            return `${params.name}: ${params.value} Pelajar`;
+                          }
+                        },
+                        legend: {
+                          top: '5%',
+                          left: 'center'
+                        },
+                        series: [{
+                          name: 'Status Pelajar',
+                          type: 'pie',
+                          radius: ['40%', '70%'],
+                          avoidLabelOverlap: false,
+                          label: { show: false, position: 'center' },
+                          emphasis: {
+                            label: { show: true, fontSize: '18', fontWeight: 'bold' }
+                          },
+                          labelLine: { show: false },
+                          data: [
+                            { value: {{ saham_selesai }}, name: 'Selesai' },
+                            { value: {{ saham_belum_selesai }}, name: 'Belum Selesai' }
+                          ]
+                        }]
+                      });
+                    });
+                  </script>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="col-lg-12">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">Jumlah Saham Pelajar Mengikut Tingkatan </h5>
+
+                  <!-- Column Chart -->
+                  <div id="columnChart"></div>
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const chartData = {{ bar_chart_data|safe }};
+
+                        const categories = chartData.map(item => item.tingkatan);
+                        const seriesData = chartData.map(item => item.total_saham);
+
+                        new ApexCharts(document.querySelector("#columnChart"), {
+                            series: [{
+                                name: 'Jumlah Saham',
+                                data: seriesData
+                            }],
+                            chart: {
+                                type: 'bar',
+                                height: 385
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: false,
+                                    columnWidth: '55%',
+                                    endingShape: 'rounded'
+                                },
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                show: true,
+                                width: 2,
+                                colors: ['transparent']
+                            },
+                            xaxis: {
+                                categories: categories
+                            },
+                            yaxis: {
+                                title: {
+                                    text: 'Saham (RM)'
+                                }
+                            },
+                            fill: {
+                                opacity: 1
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: function(val) {
+                                        return "RM " + val
+                                    }
+                                }
+                            }
+                        }).render();
+                    });
+                </script>
+                  <!-- End Column Chart -->
+
+              </div>
+          </div>
+      </div>
+    <hr>
+
+    <!-- data cikgu -->
+    <div class="col-lg-12">
+      <div class="pagetitle">
+        <h1>Data Pelajar</h1>
+      </div><!-- Penutup Page Title -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+                <div class="card">
+                  <div class="card-body">
+                  <fieldset>
+                    <h5 class="card-title">Tapisan</h5>
+
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Nama</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="filterNama" name="nama" placeholder="Carian Nama Pelajar">
+                        {% comment %} {{ form.nama }} {% endcomment %}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Tingkatan</label>
+                      <div class="col-sm-10">
+                        <select class="form-select" id="filterTingkatan" aria-label="Default select example" name="tingkatan">
+                          <option selected disabled>Pilih</option>
+                          <option value="-">-</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                        {% comment %} {{ form.tingkatan }} {% endcomment %}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Kelas</label>
+                      <div class="col-sm-10">
+                        <select class="form-select" id="filterKelas" aria-label="Default select example" name="kelas">
+                          <option selected disabled>Pilih</option>
+                          <option value="-">-</option>
+                          <option value="ANGGERIK">ANGGERIK</option>
+                          <option value="CEMPAKA">CEMPAKA</option>
+                          <option value="DAHLIA">DAHLIA</option>
+                          <option value="MAWAR">MAWAR</option>
+                          <option value="SEROJA">SEROJA</option>
+                          <option value="TERATAI">TERATAI</option>
+                          <option value="UM">UM</option>
+                          <option value="UKM">UKM</option>
+                          <option value="USM">USM</option>
+                          <option value="LILY">LILY</option>
+                        </select>
+                        {% comment %} {{ form.kelas }} {% endcomment %}
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Status Saham</legend>
+                    <div class="col-sm-10 d-flex">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="status" id="filterStatus" value="Selesai">
+                        <label class="form-check-label" for="filterStatus">
+                          Selesai
+                        </label>
+                        {% comment %} {{ form.ahli }} {% endcomment %}
+                      </div>
+                      <div class="form-check ms-3">
+                        <input class="form-check-input" type="radio" name="status" id="filterStatus" value="Belum Selesai">
+                        <label class="form-check-label" for="filterStatus">
+                          Belum Selesai
+                        </label>
+                        {% comment %} {{ form.ahli }} {% endcomment %}
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Ahli</legend>
+                    <div class="col-sm-10 d-flex">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ahli" id="filterAhli" value="Aktif">
+                        <label class="form-check-label" for="filterAhli">
+                          Aktif
+                        </label>
+                        {% comment %} {{ form.ahli }} {% endcomment %}
+                      </div>
+                      <div class="form-check ms-3">
+                        <input class="form-check-input" type="radio" name="ahli" id="filterAhli" value="Tidak Aktif">
+                        <label class="form-check-label" for="filterAhli">
+                          Tidak Aktif
+                        </label>
+                        {% comment %} {{ form.ahli }} {% endcomment %}
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                </div>
+
+                <div class="card" id="student-data-table">
+                  <div class="card-body">
+                    <fieldset>
+                      <h5 class="card-title">Maklumat Data Pelajar</h5>
+                      <!-- Table container with scrollpane -->
+                      <div class="table-scrollpane" class="student-data-table">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Bil.</th>
+                              <th>ID member</th>
+                              <th>No. IC</th>
+                              <th>Nama</th>
+                              <th>Jantina</th>
+                              <th>Alamat Rumah</th>
+                              <th>Tingkatan</th>
+                              <th>Kelas</th>
+                              <th>Ahli</th>
+                              <th>Status Saham</th>
+                              <th>Modal Syer(RM)</th>
+                              <th data-type="date" data-format="MM/DD/YYYY">Tarikh Pendaftaran</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for i in member %}
+                            <tr class="student-row" data-tingkatan="{{ i.tingkatan }}" data-kelas="{{ i.kelas }}" data-status="{{ i.status }}" data-ahli="{{ i.ahli }}" data-nama="{{ i.nama|lower }}">
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ i.member_id}}</td>
+                              <td>{{ i.ic_pelajar }}</td>
+                              <td>{{ i.nama }}</td>
+                              <td>{{ i.jantina }}</td>
+                              <td>{{ i.alamat_rumah }}</td>
+                              <td>{{ i.tingkatan }}</td>
+                              <td>{{ i.kelas }}</td>
+                              <td>{{ i.ahli }}</td>
+                              <td>{{ i.status }}</td>
+                              <td>{{ i.modal_syer }}</td>
+                              <td>{{ i.tarikh_daftar }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                              <td colspan="12" class="text-center">⚠️ Tiada data pelajar</td>
+                            </tr>                            
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+  </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filterTingkatan = document.getElementById("filterTingkatan");
+    const filterKelas = document.getElementById("filterKelas");
+    const filterStatus = document.querySelectorAll("input[name='status']");
+    const filterAhli = document.querySelectorAll("input[name='ahli']");
+    const filterNama = document.getElementById("filterNama");
+    const studentRows = document.querySelectorAll(".student-row");
+
+    function getSelectedValue(radioGroup) {
+        const selected = [...radioGroup].find(radio => radio.checked);
+        return selected ? selected.value : null;
+    }
+
+    function filterStudents() {
+        const selectedTingkatan = filterTingkatan.value;
+        const selectedKelas = filterKelas.value;
+        const selectedStatus = getSelectedValue(filterStatus);
+        const selectedAhli = getSelectedValue(filterAhli);
+        const selectedNama = filterNama.value.trim().toLowerCase(); // Trim spaces and lowercase input
+
+        let visibleRowCount = 0;
+
+        studentRows.forEach(row => {
+            const rowTingkatan = row.getAttribute("data-tingkatan");
+            const rowKelas = row.getAttribute("data-kelas");
+            const rowStatus = row.getAttribute("data-status");
+            const rowAhli = row.getAttribute("data-ahli");
+            const rowNama = row.getAttribute("data-nama").toLowerCase(); // Ensure lowercase comparison
+
+            const matchesTingkatan = selectedTingkatan === "Pilih" || selectedTingkatan === "-" || rowTingkatan === selectedTingkatan;
+            const matchesKelas = selectedKelas === "Pilih" || selectedKelas === "-" || rowKelas === selectedKelas;
+            const matchesStatus = !selectedStatus || rowStatus === selectedStatus;
+            const matchesAhli = !selectedAhli || rowAhli === selectedAhli;
+            const matchesNama = !selectedNama || rowNama.includes(selectedNama); // Match any part of the name
+
+            if (matchesTingkatan && matchesKelas && matchesStatus && matchesAhli && matchesNama) {
+                row.style.display = ""; // Show row
+                visibleRowCount++;
+            } else {
+                row.style.display = "none"; // Hide row
+            }
+        });
+
+        updateRowNumbers();
+        checkIfPelajarTableIsEmpty(visibleRowCount);
+    }
+
+    function updateRowNumbers() {
+        let rowNumber = 1;
+        studentRows.forEach(row => {
+            if (row.style.display !== "none") {
+                row.querySelector("td:nth-child(1)").textContent = rowNumber++;
+            }
+        });
+    }
+
+    function checkIfPelajarTableIsEmpty(visibleRowCount) {
+        const tbody = document.querySelector(".table tbody");
+        let noDataRow = document.getElementById("no-data-pelajar");
+
+        if (visibleRowCount === 0) {
+            if (!noDataRow) {
+                let tr = document.createElement("tr");
+                tr.id = "no-data-pelajar";
+                tr.innerHTML = `<td colspan="12" class="text-center">⚠️ Tiada data pelajar</td>`;
+                tbody.appendChild(tr);
+            }
+        } else {
+            if (noDataRow) {
+                noDataRow.remove();
+            }
+        }
+    }
+
+    // Attach event listeners
+    filterTingkatan.addEventListener("change", filterStudents);
+    filterKelas.addEventListener("change", filterStudents);
+    filterStatus.forEach(radio => radio.addEventListener("change", filterStudents));
+    filterAhli.forEach(radio => radio.addEventListener("change", filterStudents));
+    filterNama.addEventListener("input", filterStudents); // Live filtering on name input
+
+    // Initial filter application on page load
+    filterStudents();
+});
+
+</script>
+{% endblock content %}
