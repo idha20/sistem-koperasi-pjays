@@ -3,9 +3,9 @@ services:
     name: sistem-koperasi-pjays
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn PJays.wsgi:application
+    startCommand: gunicorn PJayS.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: PJays.settings
+        value: PJayS.settings
       - key: PYTHON_VERSION
         value: 3.10.13
