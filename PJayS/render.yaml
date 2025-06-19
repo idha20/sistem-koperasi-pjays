@@ -6,6 +6,6 @@ services:
     startCommand: gunicorn PJayS.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: PJayS.PJayS.settings
+        value: PJayS.settings
       - key: PYTHON_VERSION
         value: 3.10.13
