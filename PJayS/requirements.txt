@@ -8,7 +8,7 @@ mysqlclient==2.2.4
 numpy==2.1.1
 openpyxl==3.1.5
 packaging==25.0
-pandas==2.2.2
+pandas=1.5.3
 pdfkit==1.0.0
 pillow==10.4.0
 PyMySQL==1.1.1
